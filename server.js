@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-
+const path = require('path');
 const app = express()
+
+global.appRoot = path.resolve(__dirname);
+
 
 //Importing DOTENV
 dotenv.config();

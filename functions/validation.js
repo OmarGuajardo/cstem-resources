@@ -29,6 +29,20 @@ const opportunityValidation = (data) => {
 
 }
 
+//User Validation
+const userValidation = (data) => {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+        
+    })
+
+    return schema.validate(data)
+
+}
+
 
 module.exports.workshopValidation = workshopValidation
 module.exports.opportunityValidation = opportunityValidation
+module.exports.userValidation = userValidation
