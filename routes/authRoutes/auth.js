@@ -37,6 +37,7 @@ router.post('/login',async(req,res) =>{
     const { error } = await loginValidation(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
+    //Checking to see if email is our DB
     const user = await User.findOne({email:req.body.email})
     if(!user) return res.status(400).send("Email/Password is incorrect")
 

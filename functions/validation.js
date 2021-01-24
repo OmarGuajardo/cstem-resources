@@ -1,5 +1,4 @@
 const Joi = require('@hapi/joi');
-const { model } = require('mongoose');
 
 //Workshop Validation
 const workshopValidation = (data) => {

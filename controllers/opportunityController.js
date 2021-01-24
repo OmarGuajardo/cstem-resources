@@ -2,6 +2,7 @@ const opportunityController = require('express').Router()
 const { opportunityValidation } = require('../functions/validation')
 const Opportunity = require('../models/Opportunity')
 const fetch = require('node-fetch')
+const verify = require('../middleware/verfiyToken')
 
 
 // @route GET api/opportunity
@@ -36,7 +37,7 @@ opportunityController.get('/', async (req, res) => {
 // @route DELETE api/opportunity
 // @dessc Delete Opportunity
 // @access AUTH 
-opportunityController.delete('/:id', async (req, res) => {
+opportunityController.delete('/:id', verify, async (req, res) => {
 
     try {
         const opportunity = await Opportunity.deleteOne({ _id: req.params.id })
@@ -52,15 +53,15 @@ opportunityController.delete('/:id', async (req, res) => {
 // @route UPDATE api/opportunity
 // @dessc UPDATE Opportunity
 // @access AUTH 
-opportunityController.patch('/:id', async (req, res) => {
+opportunityController.patch('/:id', verify, async (req, res) => {
 
     try {
         const opportunity = await Opportunity.findByIdAndUpdate(
             req.params.id,
             req.body,
-            {new:true}
+            { new: true }
         )
-        res.status(200).send(opportunity)    
+        res.status(200).send(opportunity)
     } catch (error) {
         res.status(400).send(error)
     }
@@ -70,7 +71,7 @@ opportunityController.patch('/:id', async (req, res) => {
 // @route POST api/opportunity
 // @dessc Create Opportunity
 // @access PUBLIC 
-opportunityController.post('/', async (req, res) => {
+opportunityController.post('/', verify, async (req, res) => {
 
     //Making sure that we are getting valid data
     const { error } = opportunityValidation(req.body)
