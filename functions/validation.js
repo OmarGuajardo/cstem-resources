@@ -39,10 +39,20 @@ const userValidation = (data) => {
     })
 
     return schema.validate(data)
+}
+//Login Validation
+const loginValidation = (data) => {
+    const schema = Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+        
+    })
 
+    return schema.validate(data)
 }
 
 
 module.exports.workshopValidation = workshopValidation
 module.exports.opportunityValidation = opportunityValidation
 module.exports.userValidation = userValidation
+module.exports.loginValidation = loginValidation

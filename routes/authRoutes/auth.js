@@ -1,11 +1,13 @@
 const router = require('express').Router()
-const { userValidation } = require(appRoot + "/functions/validation");
-const User = require( appRoot + "/models/User")
+const { userValidation , loginValidation} = require(appRoot + "/functions/validation");
+const User = require('../../models/User')
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 
 router.post('/register', async (req, res) => {
 
+    //Making sure request meets our template
     const { error } = await userValidation(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
@@ -27,7 +29,24 @@ router.post('/register', async (req, res) => {
     } catch (err) {
         res.status(400).send("User couldn't be saved")
     }
+})
 
+router.post('/login',async(req,res) =>{
+    
+    //Making sure request meets our template
+    const { error } = await loginValidation(req.body)
+    if (error) return res.status(400).send(error.details[0].message)
+
+    const user = await User.findOne({email:req.body.email})
+    if(!user) return res.status(400).send("Email/Password is incorrect")
+
+    //Checking to see if password is correct
+    const validPass = await bcrypt.compare(req.body.password,user.password)
+    if (!validPass) return res.status(400).send("Email/Password is incorrect")
+
+    //Create and assign token
+    const token = jwt.sign({id : user._id} , process.env.SERVER_SECRET);
+    res.header('auth-token',token).send(token)
 })
 
 
