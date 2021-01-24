@@ -21,9 +21,8 @@ const opportunityValidation = (data) => {
         classification: Joi.string().required(),
         participants: Joi.string(),
         major: Joi.string(),
-        deadline: Joi.date(),
+        deadline: Joi.string(),
     })
-
     return schema.validate(data)
 
 }

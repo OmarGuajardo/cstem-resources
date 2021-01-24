@@ -6,7 +6,7 @@ const opportunitySchema = mongoose.Schema({
     classification: { type: String, required: true },
     participants: String,
     major: String,
-    deadline: Date
+    deadline: String
 })
 
 

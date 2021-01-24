@@ -72,19 +72,24 @@ opportunityController.patch('/:id', verify, async (req, res) => {
 // @dessc Create Opportunity
 // @access PUBLIC 
 opportunityController.post('/', verify, async (req, res) => {
+    
+    const urlSplit = req.body.url.split(" ")
+    req.body.url = urlSplit[0]
 
     //Making sure that we are getting valid data
     const { error } = opportunityValidation(req.body)
-    if (error) return res.status(400).send(error)
+    if (error) return res.status(400).json(error)
+
+   
 
     //Making sure we don't have dupicates
     const urlExists = await Opportunity.findOne({ url: req.body.url })
-    if (urlExists) return res.status(400).send("Opportunity already exists")
+    if (urlExists) return res.status(400).json("Opportunity already exists")
 
     //Making sure url that was sent is real
-    const urlResponse = await fetch(req.body.url)
     try {
-        if (urlResponse.status != 200) return res.status(404).send("URL was not found")
+        const urlResponse = await fetch(req.body.url)
+        if (urlResponse.status != 200) return res.status(404).json("URL was not found")
         const opportunity = new Opportunity({
             name: req.body.name,
             url: req.body.url,
@@ -94,9 +99,9 @@ opportunityController.post('/', verify, async (req, res) => {
             deadline: req.body.deadline
         })
         const savedOpportunity = await opportunity.save()
-        res.status(200).send(savedOpportunity)
+        res.status(200).json("Opportunity saved!")
     } catch (err) {
-        return res.status(400).send("SOMETHING  BAD HAPPEND")
+        return res.status(400).json("Something bad happend!")
 
     }
 
