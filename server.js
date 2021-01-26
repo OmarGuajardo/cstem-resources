@@ -1,8 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-
+const path = require('path');
+const bodyParser = require('body-parser');
 const app = express()
+
+global.appRoot = path.resolve(__dirname);
+
 
 //Importing DOTENV
 dotenv.config();
@@ -28,9 +32,11 @@ mongoose.connect(process.env.MONGO_DB_URI,
 
 //Middleware
 app.use(express.json())
+app.use(bodyParser.urlencoded({extended:false}))
 
 
 //Router Middleware
 app.use('/api',require('./routes/index'))
 
-app.listen(3000, () => console.log("Server listening in 3000"))
+app.listen(process.env.PORT || 3000, 
+    () => console.log("Server is running"))

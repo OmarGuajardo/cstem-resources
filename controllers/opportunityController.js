@@ -2,6 +2,7 @@ const opportunityController = require('express').Router()
 const { opportunityValidation } = require('../functions/validation')
 const Opportunity = require('../models/Opportunity')
 const fetch = require('node-fetch')
+const verify = require('../middleware/verfiyToken')
 
 
 // @route GET api/opportunity
@@ -36,7 +37,7 @@ opportunityController.get('/', async (req, res) => {
 // @route DELETE api/opportunity
 // @dessc Delete Opportunity
 // @access AUTH 
-opportunityController.delete('/:id', async (req, res) => {
+opportunityController.delete('/:id', verify, async (req, res) => {
 
     try {
         const opportunity = await Opportunity.deleteOne({ _id: req.params.id })
@@ -52,15 +53,15 @@ opportunityController.delete('/:id', async (req, res) => {
 // @route UPDATE api/opportunity
 // @dessc UPDATE Opportunity
 // @access AUTH 
-opportunityController.patch('/:id', async (req, res) => {
+opportunityController.patch('/:id', verify, async (req, res) => {
 
     try {
         const opportunity = await Opportunity.findByIdAndUpdate(
             req.params.id,
             req.body,
-            {new:true}
+            { new: true }
         )
-        res.status(200).send(opportunity)    
+        res.status(200).send(opportunity)
     } catch (error) {
         res.status(400).send(error)
     }
@@ -70,20 +71,25 @@ opportunityController.patch('/:id', async (req, res) => {
 // @route POST api/opportunity
 // @dessc Create Opportunity
 // @access PUBLIC 
-opportunityController.post('/', async (req, res) => {
+opportunityController.post('/', verify, async (req, res) => {
+    
+    const urlSplit = req.body.url.split(" ")
+    req.body.url = urlSplit[0]
 
     //Making sure that we are getting valid data
     const { error } = opportunityValidation(req.body)
-    if (error) return res.status(400).send(error)
+    if (error) return res.status(400).json(error)
+
+   
 
     //Making sure we don't have dupicates
     const urlExists = await Opportunity.findOne({ url: req.body.url })
-    if (urlExists) return res.status(400).send("Opportunity already exists")
+    if (urlExists) return res.status(400).json("Opportunity already exists")
 
     //Making sure url that was sent is real
-    const urlResponse = await fetch(req.body.url)
     try {
-        if (urlResponse.status != 200) return res.status(404).send("URL was not found")
+        const urlResponse = await fetch(req.body.url)
+        if (urlResponse.status != 200) return res.status(404).json("URL was not found")
         const opportunity = new Opportunity({
             name: req.body.name,
             url: req.body.url,
@@ -93,9 +99,9 @@ opportunityController.post('/', async (req, res) => {
             deadline: req.body.deadline
         })
         const savedOpportunity = await opportunity.save()
-        res.status(200).send(savedOpportunity)
+        res.status(200).json("Opportunity saved!")
     } catch (err) {
-        return res.status(400).send("SOMETHING  BAD HAPPEND")
+        return res.status(400).json("Something bad happend!")
 
     }
 

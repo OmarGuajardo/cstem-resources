@@ -1,5 +1,4 @@
 const Joi = require('@hapi/joi');
-const { model } = require('mongoose');
 
 //Workshop Validation
 const workshopValidation = (data) => {
@@ -22,13 +21,36 @@ const opportunityValidation = (data) => {
         classification: Joi.string().required(),
         participants: Joi.string(),
         major: Joi.string(),
-        deadline: Joi.date(),
+        deadline: Joi.string(),
+    })
+    return schema.validate(data)
+
+}
+
+//User Validation
+const userValidation = (data) => {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+        
     })
 
     return schema.validate(data)
+}
+//Login Validation
+const loginValidation = (data) => {
+    const schema = Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+        
+    })
 
+    return schema.validate(data)
 }
 
 
 module.exports.workshopValidation = workshopValidation
 module.exports.opportunityValidation = opportunityValidation
+module.exports.userValidation = userValidation
+module.exports.loginValidation = loginValidation
