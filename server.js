@@ -37,8 +37,6 @@ app.use(bodyParser.urlencoded({extended:false}))
 
 //Router Middleware
 app.use('/api',require('./routes/index'))
-app.get('/',(req,res) =>{
-    res.sendFile('/client/index.html',{root:__dirname})
-})
 
-app.listen(3000, () => console.log("Server listening in 3000"))
+app.listen(process.env.PORT || 3000, 
+    () => console.log("Server is running"))
