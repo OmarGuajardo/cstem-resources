@@ -1,0 +1,34 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.dashBoard {
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+}
+.opportunity-container {
+  display: flex;
+  width: 80%;
+  border: 2px solid red;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.opportunity-container .opportunity-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  flex: 1;
+}
+
+#delete-btn {
+  flex: 0.2;
+}
