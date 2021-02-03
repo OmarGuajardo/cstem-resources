@@ -2,12 +2,13 @@ import React, { useContext, useEffect } from "react";
 import Opportunity from "../components/Opportunity";
 import "../styles/Opportunity.css";
 import { OpportunitiesContext } from "../providers/OpportunitiesContext";
+import { connect } from "react-redux";
 
-function Dashboard() {
-  const [opportunities, setOpportunities] = useContext(OpportunitiesContext);
+import { fetchOpportunities } from "../actions/opportunitiesActions";
 
+function Dashboard(props) {
   useEffect(() => {
-    console.log("Dashboard has loaded");
+    props.fetchOpportunities();
   }, []);
 
   return (
@@ -19,7 +20,8 @@ function Dashboard() {
         <div className="opportunity-info">Participants</div>
         <div className="opportunity-info">Deadline</div>
       </div>
-      {opportunities.map((opportunity) => (
+
+      {props.opportunities.map((opportunity) => (
         <Opportunity
           name={opportunity.name}
           classification={opportunity.classification}
@@ -34,4 +36,9 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => ({
+  opportunities: state.opportunities.items,
+});
+
+// export default Dashboard;
+export default connect(mapStateToProps, { fetchOpportunities })(Dashboard);
