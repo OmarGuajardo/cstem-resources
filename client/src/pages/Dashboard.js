@@ -1,10 +1,15 @@
-import React, { useState, useContext, useReducer } from "react";
+import React, { useContext, useEffect } from "react";
 import Opportunity from "../components/Opportunity";
 import "../styles/Opportunity.css";
 import { OpportunitiesContext } from "../providers/OpportunitiesContext";
 
 function Dashboard() {
   const [opportunities, setOpportunities] = useContext(OpportunitiesContext);
+
+  useEffect(() => {
+    console.log("Dashboard has loaded");
+  }, []);
+
   return (
     <div className="dashBoard">
       <div className="opportunity-container">
@@ -22,7 +27,7 @@ function Dashboard() {
           major={opportunity.major}
           participants={opportunity.participants}
           deadline={opportunity.deadline}
-          key={opportunity.id}
+          key={opportunity._id}
         />
       ))}
     </div>
