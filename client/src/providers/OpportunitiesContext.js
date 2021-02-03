@@ -1,5 +1,4 @@
 import React, { useState, createContext, useEffect } from "react";
-import axios from "axios";
 
 export const OpportunitiesContext = createContext();
 
@@ -11,16 +10,17 @@ export const OpportunitiesProvider = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("api/opportonuties?c=INL");
+        const response = await fetch("/api/opportunities?c=INL");
         const data = await response.json();
         console.log(data);
         setOpportunities([...data]);
+        console.log("Data set");
       } catch (err) {
-        console.log("There was an error getting the data");
+        console.log("Something went wrong");
+        console.error(err);
       }
     };
     fetchData();
-    console.log("Data set");
   }, []);
 
   return (
