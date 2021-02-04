@@ -40,5 +40,4 @@ const mapStateToProps = (state) => ({
   opportunities: state.opportunities.items,
 });
 
-// export default Dashboard;
 export default connect(mapStateToProps, { fetchOpportunities })(Dashboard);
