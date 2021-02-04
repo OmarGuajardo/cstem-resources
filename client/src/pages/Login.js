@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "../styles/Login.css";
+import { TokenExpiredError } from "jsonwebtoken";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -7,18 +9,27 @@ function Login() {
 
   const updateEmail = (e) => {
     setEmail(e.target.value);
-    console.log(email);
   };
   const updatePassword = (e) => {
     setPassword(e.target.value);
-    console.log(password);
   };
 
-  const loginUser = (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
-    console.log("this is the email: " + email);
-    console.log("this is the password: " + password);
+    const body = JSON.stringify({
+      email: email,
+      password: password,
+    });
+    const config = { headers: { "Content-Type": "application/json" } };
+    try {
+      const res = await axios.post("/api/auth/login", body, config);
+      const userData = res.data;
+      const userToken = res.headers["auth-token"];
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   return (
     <div className="background">
       <h1>Log In</h1>
