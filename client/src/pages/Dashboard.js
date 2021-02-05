@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import Opportunity from "../components/Opportunity";
 import "../styles/Opportunity.css";
-import { OpportunitiesContext } from "../providers/OpportunitiesContext";
 import { connect } from "react-redux";
 
 import { fetchOpportunities } from "../actions/opportunitiesActions";

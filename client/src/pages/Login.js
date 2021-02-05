@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "../styles/Login.css";
-import { TokenExpiredError } from "jsonwebtoken";
+import { connect } from "react-redux";
+import { loginUser } from "../actions/authActions";
+import { Redirect } from "react-router-dom";
+import Dashboard from "../pages/Dashboard";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,21 +16,15 @@ function Login() {
     setPassword(e.target.value);
   };
 
-  const loginUser = async (e) => {
+  const loginUser = (e) => {
     e.preventDefault();
-    const body = JSON.stringify({
-      email: email,
-      password: password,
-    });
-    const config = { headers: { "Content-Type": "application/json" } };
-    try {
-      const res = await axios.post("/api/auth/login", body, config);
-      const userData = res.data;
-      const userToken = res.headers["auth-token"];
-    } catch (err) {
-      console.log(err);
-    }
+    props.loginUser({ email, password });
   };
+
+  const auth = true;
+  if (props.auth) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <div className="background">
@@ -40,6 +36,7 @@ function Login() {
           placeholder="PASSWORD "
           type="password"
         />
+
         <button type="submit" className="login-btn">
           Login
         </button>
@@ -48,4 +45,9 @@ function Login() {
   );
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  auth: state.auth.isAuthenticated,
+});
+
+// export default Login;
+export default connect(mapStateToProps, { loginUser })(Login);

@@ -1,7 +1,6 @@
-import { FETCH_OPPORTUNITIES, NEW_OPPORTUNITY } from "./types";
+import { FETCH_OPPORTUNITIES } from "./types";
 
 export const fetchOpportunities = () => (dispatch) => {
-  console.log("fetchOpportunites being called");
   fetch("/api/opportunities?c=INL")
     .then((res) => res.json())
     .then((data) => {
