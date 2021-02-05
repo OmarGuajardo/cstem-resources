@@ -14,7 +14,8 @@ export default (state = intialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload,
+        user: action.payload.data,
+        token: action.payload.token,
         error: null,
       };
     case AUTH_ERROR:

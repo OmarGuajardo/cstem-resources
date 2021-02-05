@@ -3,11 +3,12 @@ import "../styles/Login.css";
 import { connect } from "react-redux";
 import { loginUser } from "../actions/authActions";
 import { Redirect } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
+import { useCookies } from "react-cookie";
 
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [cookies, setCookie] = useCookies(["authToken"]);
 
   const updateEmail = (e) => {
     setEmail(e.target.value);
@@ -21,8 +22,11 @@ function Login(props) {
     props.loginUser({ email, password });
   };
 
-  const auth = true;
-  if (props.auth) {
+  if (props.auth.isAuthenticated) {
+    //This shoudl be handled by reducer
+    setCookie("authToken", props.auth.token, {
+      path: "/",
+    });
     return <Redirect to="/dashboard" />;
   }
 
@@ -46,7 +50,7 @@ function Login(props) {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth.isAuthenticated,
+  auth: state.auth,
 });
 
 // export default Login;

@@ -55,4 +55,16 @@ router.post("/login", async (req, res) => {
   res.header("auth-token", token).send(data);
 });
 
+router.get("/checkToken", (req, res) => {
+  const token = req.cookies.authToken;
+  if (!token) return res.status(400).send("Access Denied");
+
+  try {
+    const verified = jwt.verify(token, process.env.SERVER_SECRET);
+    res.status(200).send(verified);
+  } catch (err) {
+    res.status(400).send("Invalid Token");
+  }
+});
+
 module.exports = router;

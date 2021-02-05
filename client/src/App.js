@@ -3,10 +3,9 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import { Provider } from "react-redux";
-
-import { OpportunitiesProvider } from "./providers/OpportunitiesContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import store from "./store";
+import checkToken from "./components/checkToken";
 
 function App() {
   return (
@@ -17,7 +16,7 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/login" component={Login} />
 
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard" component={checkToken(Dashboard)} />
           </Switch>
         </div>
       </Router>
