@@ -1,10 +1,6 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
 .background {
-  background-image: url("../images/forest2.jpg");
+  position: relative;
+  background-color: var(--secondary-color);
   min-height: 100vh;
   height: 100vh;
 
@@ -17,53 +13,75 @@
   background-size: cover;
 }
 
+.background {
+  overflow: hidden;
+}
+.login-icon-background {
+  position: absolute;
+  font-size: 800px;
+  color: rgba(107, 143, 113, 0.33);
+}
+#top-right {
+  margin-top: -400px;
+  margin-right: -400px;
+  top: 0;
+  right: 0;
+  animation: rotate2 20s 2;
+}
+#bottom-left {
+  bottom: 0;
+  left: 0;
+  margin-bottom: -400px;
+  margin-left: -400px;
+  animation: rotate 15s 2;
+}
+
+/* The animation code */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate2 {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.background .login-icon {
+  font-size: 115px;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+}
 .background h1 {
-  color: white;
+  color: black;
   text-transform: uppercase;
-  letter-spacing: 3px;
   margin-bottom: 20px;
 }
 
 .login-container {
-  backdrop-filter: blur(10px);
-
+  background-color: rgba(107, 143, 113, 0.33);
+  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+  height: 60%;
+  width: 26%;
+  justify-content: space-evenly;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
-
-  height: 60%;
-  width: 40%;
 }
-
-input {
+.input-text-field {
   width: 50%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  align-self: center;
 }
 
 .login-btn {
-  cursor: pointer;
-  background-color: transparent;
-  width: 30%;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  font-size: medium;
-  color: white;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 100px;
-  box-sizing: border-box;
-  transition: 0.3s ease;
-}
-.login-btn:hover {
-  color: black;
-  background-color: white;
-  border: 1px solid white;
+  width: 40%;
+  font-weight: 700;
 }

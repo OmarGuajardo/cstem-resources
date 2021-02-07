@@ -1,0 +1,16 @@
+:root {
+  --primary-color: #6b8f71;
+  --primary-color-dark: #3f6146;
+  --primary-color-light: #9abfa0;
+  --secondary-color: #ecfeaa;
+  --secondary-color-dark: #bacc7b;
+  --secondary-color-light: #ffffdd;
+  --accent-color: #df9a57;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans", sans-serif;
+}

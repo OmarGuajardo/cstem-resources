@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import { loginUser } from "../actions/authActions";
 import { Redirect } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { FaReact } from "react-icons/fa";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 function Login(props) {
   const [email, setEmail] = useState("");
@@ -32,18 +35,28 @@ function Login(props) {
 
   return (
     <div className="background">
-      <h1>Log In</h1>
+      <FaReact className="login-icon" />
+      <FaReact id="top-right" className="login-icon-background" />
+      <FaReact id="bottom-left" className="login-icon-background" />
       <form onSubmit={loginUser} className="login-container" action="">
-        <input onChange={updateEmail} placeholder="EMAIL" type="text" />
-        <input
+        <h1>Log In</h1>
+        <TextField
+          onChange={updateEmail}
+          className="input-text-field"
+          id="standard-basic"
+          label="EMAIL"
+        />
+        <TextField
           onChange={updatePassword}
-          placeholder="PASSWORD "
+          className="input-text-field"
+          id="standard-basic"
           type="password"
+          label="PASSWORD"
         />
 
-        <button type="submit" className="login-btn">
+        <Button type="submit" className="login-btn">
           Login
-        </button>
+        </Button>
       </form>
     </div>
   );
