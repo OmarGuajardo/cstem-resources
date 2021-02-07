@@ -5,6 +5,9 @@ const theme = createMuiTheme({
     primary: {
       main: "#6b8f71",
     },
+    focus: {
+      main: "#6b8f71",
+    },
   },
 });
 
