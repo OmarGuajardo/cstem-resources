@@ -1,4 +1,4 @@
-import { LOGIN_USER, AUTH_ERROR } from "../actions/types";
+import { LOGIN_USER, AUTH_ERROR, LOGOUT_USER } from "../actions/types";
 
 const intialState = {
   token: null,
@@ -16,6 +16,14 @@ export default (state = intialState, action) => {
         isAuthenticated: true,
         user: action.payload.data,
         token: action.payload.token,
+        error: null,
+      };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: {},
+        token: null,
         error: null,
       };
     case AUTH_ERROR:

@@ -1,12 +1,18 @@
 import React, { useEffect } from "react";
 import Opportunity from "../components/Opportunity";
 import "../styles/Opportunity.css";
+import "../styles/Dashboard.css";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { FaReact } from "react-icons/fa";
+import { useCookies } from "react-cookie";
 
 import { fetchOpportunities } from "../actions/opportunitiesActions";
+import { logoutUser } from "../actions/authActions";
 
 function Dashboard(props) {
+  const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
+
   useEffect(() => {
     props.fetchOpportunities();
   }, []);
@@ -14,9 +20,24 @@ function Dashboard(props) {
   if (!props.auth.isAuthenticated) {
     return <Redirect to="/login" />;
   }
+  const logOut = () => {
+    removeCookie("authToken");
+    props.logoutUser();
+  };
 
   return (
     <div className="dashBoard">
+      <div className="side-nav-bar-container">
+        <div className="logo-container">
+          <FaReact className="dashboard-icon" />
+
+          <h3 className="dashboard-title">C-STEM</h3>
+        </div>
+        <div className="actions-container"></div>
+        <div className="log-out-btn">
+          <h4 onClick={logOut}>Log Out</h4>
+        </div>
+      </div>
       <div className="opportunity-container">
         <div id="delete-btn" className="opportunity-info"></div>
         <div className="opportunity-info">Program</div>
@@ -25,7 +46,7 @@ function Dashboard(props) {
         <div className="opportunity-info">Deadline</div>
       </div>
 
-      {props.opportunities.map((opportunity) => (
+      {/* {props.opportunities.map((opportunity) => (
         <Opportunity
           name={opportunity.name}
           classification={opportunity.classification}
@@ -35,7 +56,7 @@ function Dashboard(props) {
           deadline={opportunity.deadline}
           key={opportunity._id}
         />
-      ))}
+      ))} */}
     </div>
   );
 }
@@ -45,4 +66,6 @@ const mapStateToProps = (state) => ({
   opportunities: state.opportunities.items,
 });
 
-export default connect(mapStateToProps, { fetchOpportunities })(Dashboard);
+export default connect(mapStateToProps, { fetchOpportunities, logoutUser })(
+  Dashboard
+);

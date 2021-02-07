@@ -1,4 +1,4 @@
-import { AUTH_ERROR, LOGIN_USER } from "./types";
+import { AUTH_ERROR, LOGOUT_USER, LOGIN_USER } from "./types";
 
 import axios from "axios";
 
@@ -23,4 +23,10 @@ export const loginUser = (body) => (dispatch) => {
         payload: err,
       });
     });
+};
+
+export const logoutUser = () => (dispatch) => {
+  dispatch({
+    type: LOGOUT_USER,
+  });
 };

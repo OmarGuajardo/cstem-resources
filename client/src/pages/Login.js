@@ -26,7 +26,7 @@ function Login(props) {
   };
 
   if (props.auth.isAuthenticated) {
-    //This shoudl be handled by reducer
+    console.log("user is authenticated, putting token in cookie");
     setCookie("authToken", props.auth.token, {
       path: "/",
     });

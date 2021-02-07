@@ -1,20 +1,6 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-.dashBoard {
-  min-height: 100vh;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: top;
-  align-items: center;
-}
 .opportunity-container {
   display: flex;
-  width: 80%;
+  width: 75%;
   border: 2px solid red;
   justify-content: space-between;
   margin-top: 20px;
