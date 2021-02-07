@@ -38,25 +38,31 @@ function Dashboard(props) {
           <h4 onClick={logOut}>Log Out</h4>
         </div>
       </div>
-      <div className="opportunity-container">
-        <div id="delete-btn" className="opportunity-info"></div>
-        <div className="opportunity-info">Program</div>
-        <div className="opportunity-info">Major</div>
-        <div className="opportunity-info">Participants</div>
-        <div className="opportunity-info">Deadline</div>
+      <div className="app-container">
+        <div className="app-title">
+          <h1>External Resources Database</h1>
+        </div>
+        <div className="opportunity-container">
+          <div id="delete-btn" className="opportunity-info">
+            <button>x</button>
+          </div>
+          <div className="opportunity-info">Program</div>
+          <div className="opportunity-info">Major</div>
+          <div className="opportunity-info">Participants</div>
+          <div className="opportunity-info">Deadline</div>
+        </div>
+        {props.opportunities.map((opportunity) => (
+          <Opportunity
+            name={opportunity.name}
+            classification={opportunity.classification}
+            url={opportunity.url}
+            major={opportunity.major}
+            participants={opportunity.participants}
+            deadline={opportunity.deadline}
+            key={opportunity._id}
+          />
+        ))}
       </div>
-
-      {/* {props.opportunities.map((opportunity) => (
-        <Opportunity
-          name={opportunity.name}
-          classification={opportunity.classification}
-          url={opportunity.url}
-          major={opportunity.major}
-          participants={opportunity.participants}
-          deadline={opportunity.deadline}
-          key={opportunity._id}
-        />
-      ))} */}
     </div>
   );
 }

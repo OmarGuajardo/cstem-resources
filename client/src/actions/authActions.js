@@ -11,7 +11,7 @@ export const loginUser = (body) => (dispatch) => {
         data: res.data,
         token: res.headers["auth-token"],
       };
-
+      console.log("logging in from authActions");
       dispatch({
         type: LOGIN_USER,
         payload: payload,
