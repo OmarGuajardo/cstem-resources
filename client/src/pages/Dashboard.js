@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Opportunity from "../components/Opportunity";
 import "../styles/Opportunity.css";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import { fetchOpportunities } from "../actions/opportunitiesActions";
 
@@ -9,6 +10,10 @@ function Dashboard(props) {
   useEffect(() => {
     props.fetchOpportunities();
   }, []);
+
+  if (!props.auth.isAuthenticated) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <div className="dashBoard">
@@ -36,6 +41,7 @@ function Dashboard(props) {
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   opportunities: state.opportunities.items,
 });
 

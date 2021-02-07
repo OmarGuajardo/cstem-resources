@@ -8,7 +8,6 @@ export const fetchOpportunities = () => (dispatch) => {
         type: FETCH_OPPORTUNITIES,
         payload: data,
       });
-      console.log(data);
     })
     .catch((err) => console.log("something went wrong fetching the data"));
 };

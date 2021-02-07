@@ -39,7 +39,8 @@ function Login(props) {
       <FaReact id="top-right" className="login-icon-background" />
       <FaReact id="bottom-left" className="login-icon-background" />
       <form onSubmit={loginUser} className="login-container" action="">
-        <h1>Log In</h1>
+        <h1>Welcome</h1>
+        {/* <h2>asdf</h2> */}
         <TextField
           onChange={updateEmail}
           className="input-text-field"
@@ -54,9 +55,11 @@ function Login(props) {
           label="PASSWORD"
         />
 
-        <Button type="submit" className="login-btn">
-          Login
-        </Button>
+        <div className="button-container">
+          <Button type="submit" className="login-btn">
+            Login
+          </Button>
+        </div>
       </form>
     </div>
   );
