@@ -6,6 +6,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Fab from "@material-ui/core/Fab";
 import { FaRegSave } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
+import { connect } from "react-redux";
+import { createOpportunity } from "../actions/opportunitiesActions";
+
 const fullWidth = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -58,7 +61,7 @@ function Modal(props) {
   };
 
   const saveProgram = () => {
-    console.log(program);
+    props.createOpportunity(program);
   };
   const full = fullWidth();
   const quarter = quarterWidth();
@@ -128,4 +131,4 @@ function Modal(props) {
   );
 }
 
-export default Modal;
+export default connect(null, { createOpportunity })(Modal);

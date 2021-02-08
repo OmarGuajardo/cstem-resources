@@ -75,8 +75,10 @@ opportunityController.post("/", verify, async (req, res) => {
   //Making sure url that was sent is real
   try {
     const urlResponse = await fetch(req.body.url);
-    if (urlResponse.status != 200)
+    if (urlResponse.status != 200) {
+      console.log("URL WAS NOT FOUND");
       return res.status(404).json("URL was not found");
+    }
     const opportunity = new Opportunity({
       name: req.body.name,
       url: req.body.url,
@@ -86,7 +88,7 @@ opportunityController.post("/", verify, async (req, res) => {
       deadline: req.body.deadline,
     });
     const savedOpportunity = await opportunity.save();
-    res.status(200).json("Opportunity saved!");
+    res.status(200).json(savedOpportunity);
   } catch (err) {
     return res.status(400).json("Something bad happend!");
   }
