@@ -11,20 +11,24 @@ function ErDatabase(props) {
   const [modal, setModal] = useState(false);
   useEffect(() => {
     props.fetchOpportunities();
-    document.addEventListener("keydown", closeModal, false);
+    document.addEventListener("keydown", closeModalOnPress, false);
 
     return () => {
-      document.removeEventListener("keydown", closeModal, false);
+      document.removeEventListener("keydown", closeModalOnPress, false);
     };
   }, []);
   const openModal = () => {
     setModal(true);
   };
-  const closeModal = (e) => {
+  const closeModalOnPress = (e) => {
     if (e.keyCode === 27) {
       setModal(false);
     }
   };
+  const closeModal = () => {
+    setModal(false);
+  };
+
   return (
     <div>
       <div className="app-title">
@@ -50,7 +54,7 @@ function ErDatabase(props) {
           key={opportunity._id}
         />
       ))}
-      <Modal show={modal} />
+      <Modal closeFunc={closeModal} show={modal} />
       <Fab onClick={openModal} id="fabDB">
         <GrAdd id="add-icon-fab" />
       </Fab>

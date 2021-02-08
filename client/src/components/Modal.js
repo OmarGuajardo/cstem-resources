@@ -24,31 +24,41 @@ const quarterWidth = makeStyles((theme) => ({
 }));
 
 function Modal(props) {
+  const [c, setC] = useState("EPM");
+  const [program, setProgram] = useState({ classification: "EPM" });
+
   const classifications = [
     {
-      value: "External Program by Major",
-      label: "EPM",
+      label: "External Program by Major",
+      value: "EPM",
     },
     {
-      value: "External Programs for STEM",
-      label: "EPSTEM",
+      label: "External Programs for STEM",
+      value: "EPSTEM",
     },
     {
-      value: "Research Experience for Undergraduates",
-      label: "REU",
+      label: "Research Experience for Undergraduates",
+      value: "REU",
     },
     {
-      value: "Internships at National Labs",
-      label: "INL",
+      label: "Internships at National Labs",
+      value: "INL",
     },
     {
-      value: "Company Internships",
-      label: "CI",
+      label: "Company Internships",
+      value: "CI",
     },
   ];
-  const [classification, setClassification] = useState("EPM");
   const handleChange = (e) => {
-    setClassification(e.target.value);
+    setC(e.target.value);
+    setProgram({ ...program, classification: e.target.value });
+  };
+  const updateProgram = (e) => {
+    setProgram({ ...program, [e.target.name]: e.target.value });
+  };
+
+  const saveProgram = () => {
+    console.log(program);
   };
   const full = fullWidth();
   const quarter = quarterWidth();
@@ -57,26 +67,48 @@ function Modal(props) {
       <div className="form-container">
         <div className="form-heading">
           <h2>New Program</h2>
-          <ImCross id="exitForm" />
+          <ImCross onClick={props.closeFunc} id="exitForm" />
         </div>
         <div className="form-content">
           <form className={full.root} noValidate autoComplete="off">
-            <TextField id="standard-basic" label="Name" name="name" />
-            <TextField id="standard-basic" label="URL" name="url" />
+            <TextField
+              onChange={updateProgram}
+              id="standard-basic"
+              label="Name"
+              name="name"
+            />
+            <TextField
+              onChange={updateProgram}
+              id="standard-basic"
+              label="URL"
+              name="url"
+            />
           </form>
           <form className={quarter.root} noValidate autoComplete="off">
-            <TextField id="standard-basic" label="Major" name="major" />
             <TextField
+              onChange={updateProgram}
+              id="standard-basic"
+              label="Major"
+              name="major"
+            />
+            <TextField
+              onChange={updateProgram}
               id="standard-basic"
               label="Participants"
               name="participants"
             />
-            <TextField id="standard-basic" label="Deadline" name="deadline" />
             <TextField
+              onChange={updateProgram}
+              id="standard-basic"
+              label="Deadline"
+              name="deadline"
+            />
+            <TextField
+              onChange={updateProgram}
               id="standard-select-currency"
               select
               label="Select"
-              value={classification}
+              value={c}
               onChange={handleChange}
               helperText="Please select the classification"
             >
@@ -88,7 +120,7 @@ function Modal(props) {
             </TextField>
           </form>
         </div>
-        <Fab id="fabForm">
+        <Fab onClick={saveProgram} id="fabForm">
           <FaRegSave id="save-icon-fab" />
         </Fab>
       </div>
