@@ -19,8 +19,16 @@
 }
 
 .form-container {
+  padding: 30px;
   border-radius: 20px;
   width: 65%;
   height: 60%;
   background-color: white;
+}
+.form-content {
+  margin-top: 20px;
+}
+.form-row {
+  border: 2px solid red;
+  padding: 10px;
 }
