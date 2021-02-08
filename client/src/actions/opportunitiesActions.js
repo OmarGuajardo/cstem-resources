@@ -17,7 +17,7 @@ export const createOpportunity = (newOpportunity) => (dispatch) => {
   axios
     .post("/api/opportunities", JSON.stringify(newOpportunity), config)
     .then((res) => {
-      if (res.status == 200) {
+      if (res.status === 200) {
         console.log(res);
         dispatch({
           type: CREATE_OPPORTUNITY,

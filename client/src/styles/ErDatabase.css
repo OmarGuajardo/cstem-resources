@@ -1,8 +1,21 @@
+.app-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+#delete-btn-table {
+  margin-left: auto;
+}
+#hidden {
+  display: none;
+}
 #fabDB {
   background-color: var(--accent-color);
   margin: 0px;
   top: auto;
   right: 30px;
+
   bottom: 20px;
   left: auto;
   position: fixed;

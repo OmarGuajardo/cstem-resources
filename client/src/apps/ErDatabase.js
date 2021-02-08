@@ -5,14 +5,20 @@ import { fetchOpportunities } from "../actions/opportunitiesActions";
 import Checkbox from "@material-ui/core/Checkbox";
 import "../styles/ErDatabase.css";
 import Fab from "@material-ui/core/Fab";
-import { GrAdd } from "react-icons/gr";
+import { GrAdd, GrTrash } from "react-icons/gr";
 import Modal from "../components/Modal";
+
+import Button from "@material-ui/core/Button";
+// import DeleteIcon from "@material-ui/icons/Delete";
+
 function ErDatabase(props) {
   const [modal, setModal] = useState(false);
+  const [stagedDelete, setStagedDelete] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+
   useEffect(() => {
     props.fetchOpportunities();
     document.addEventListener("keydown", closeModalOnPress, false);
-
     return () => {
       document.removeEventListener("keydown", closeModalOnPress, false);
     };
@@ -29,15 +35,31 @@ function ErDatabase(props) {
     setModal(false);
   };
 
+  const addToDeleteStage = (e, opportunity) => {
+    if (e.target.checked) {
+      setStagedDelete([...stagedDelete, opportunity]);
+    } else {
+      const filtered = stagedDelete.filter((opp) => opp._id != opportunity._id);
+      setStagedDelete(filtered);
+    }
+  };
+
   return (
     <div>
       <div className="app-title">
         <h1>External Resources Database</h1>
+        <Button
+          onClick={() => console.log(stagedDelete)}
+          variant="contained"
+          id={stagedDelete.length > 0 ? "delete-btn-table" : "hidden"}
+          color="primary"
+          startIcon={<GrTrash />}
+        >
+          Delete
+        </Button>
       </div>
       <div id="table-header" className="opportunity-container">
-        <div id="delete-btn" className="opportunity-info">
-          <Checkbox></Checkbox>
-        </div>
+        <div id="delete-btn" className="opportunity-info"></div>
         <div className="opportunity-info">Program</div>
         <div className="opportunity-info">Major</div>
         <div className="opportunity-info">Participants</div>
@@ -45,12 +67,8 @@ function ErDatabase(props) {
       </div>
       {props.opportunities.map((opportunity) => (
         <Opportunity
-          name={opportunity.name}
-          classification={opportunity.classification}
-          url={opportunity.url}
-          major={opportunity.major}
-          participants={opportunity.participants}
-          deadline={opportunity.deadline}
+          handleOnChange={addToDeleteStage}
+          opportunity={opportunity}
           key={opportunity._id}
         />
       ))}
