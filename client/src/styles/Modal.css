@@ -1,0 +1,26 @@
+.background-blur {
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(10px);
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  transition: 0.3s ease;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.background-blur.hidden {
+  backdrop-filter: blur(0px);
+
+  display: none;
+  transition: 0.3s ease;
+}
+
+.form-container {
+  border-radius: 20px;
+  width: 65%;
+  height: 60%;
+  background-color: white;
+}

@@ -1,0 +1,15 @@
+#fabDB {
+  background-color: var(--accent-color);
+  margin: 0px;
+  top: auto;
+  right: 30px;
+  bottom: 20px;
+  left: auto;
+  position: fixed;
+}
+#add-icon-fab {
+  font-size: 140%;
+}
+#fabDB:hover {
+  background-color: #dd862e;
+}

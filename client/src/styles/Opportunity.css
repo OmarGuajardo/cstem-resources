@@ -1,6 +1,6 @@
 .opportunity-container {
   display: flex;
-  width: 75%;
+  width: 100%;
   justify-content: space-between;
 }
 #table-header {

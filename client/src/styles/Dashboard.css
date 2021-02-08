@@ -1,3 +1,6 @@
+:root {
+  --margin-top-dashboard: 20px;
+}
 .dashBoard {
   min-height: 100vh;
   height: 100vh;
@@ -15,7 +18,7 @@
   flex-direction: column;
 }
 .logo-container {
-  margin-top: 20px;
+  margin-top: var(--margin-top-dashboard);
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import Opportunity from "../components/Opportunity";
+import React from "react";
 import Application from "../components/Application";
 import "../styles/Opportunity.css";
 import "../styles/Dashboard.css";
@@ -8,15 +7,10 @@ import { Redirect } from "react-router-dom";
 import { FaReact } from "react-icons/fa";
 import { useCookies } from "react-cookie";
 
-import { fetchOpportunities } from "../actions/opportunitiesActions";
 import { logoutUser } from "../actions/authActions";
 
 function Dashboard(props) {
   const [cookies, setCookie, removeCookie] = useCookies(["authToken"]);
-
-  useEffect(() => {
-    props.fetchOpportunities();
-  }, []);
 
   if (!props.auth.isAuthenticated) {
     return <Redirect to="/login" />;
@@ -45,9 +39,6 @@ function Dashboard(props) {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  opportunities: state.opportunities.items,
 });
 
-export default connect(mapStateToProps, { fetchOpportunities, logoutUser })(
-  Dashboard
-);
+export default connect(mapStateToProps, { logoutUser })(Dashboard);

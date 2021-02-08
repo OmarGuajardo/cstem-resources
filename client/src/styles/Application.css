@@ -8,8 +8,14 @@
 }
 
 .application-content {
+  margin-top: var(--margin-top-dashboard);
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  width: 85%;
+}
+
+.app-title {
+  width: 100%;
 }
