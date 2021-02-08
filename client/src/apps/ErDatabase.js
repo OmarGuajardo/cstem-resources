@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import Opportunity from "../components/Opportunity";
 import { fetchOpportunities } from "../actions/opportunitiesActions";
 import Checkbox from "@material-ui/core/Checkbox";
-import Fab from "@material-ui/core/Fab";
 import "../styles/ErDatabase.css";
+import Fab from "@material-ui/core/Fab";
 import { GrAdd } from "react-icons/gr";
 import Modal from "../components/Modal";
 function ErDatabase(props) {

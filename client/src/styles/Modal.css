@@ -19,16 +19,42 @@
 }
 
 .form-container {
+  position: relative;
   padding: 30px;
   border-radius: 20px;
   width: 65%;
   height: 60%;
   background-color: white;
 }
+
+.form-heading {
+  display: flex;
+  align-items: center;
+}
+.form-heading #exitForm {
+  cursor: pointer;
+  margin-left: auto;
+  font-size: 20px;
+  transition: 0.3s ease;
+}
+#exitForm:hover {
+  font-size: 25px;
+}
 .form-content {
   margin-top: 20px;
 }
-.form-row {
-  border: 2px solid red;
-  padding: 10px;
+
+#fabForm {
+  border-radius: 10px;
+  background-color: transparent;
+  box-shadow: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  right: 20px;
+  bottom: 20px;
+}
+
+#save-icon-fab {
+  font-size: 35px;
 }

@@ -3,7 +3,9 @@ import "../styles/Modal.css";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
-
+import Fab from "@material-ui/core/Fab";
+import { FaRegSave } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 const fullWidth = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -55,6 +57,7 @@ function Modal(props) {
       <div className="form-container">
         <div className="form-heading">
           <h2>New Program</h2>
+          <ImCross id="exitForm" />
         </div>
         <div className="form-content">
           <form className={full.root} noValidate autoComplete="off">
@@ -85,6 +88,9 @@ function Modal(props) {
             </TextField>
           </form>
         </div>
+        <Fab id="fabForm">
+          <FaRegSave id="save-icon-fab" />
+        </Fab>
       </div>
     </div>
   );
