@@ -1,9 +1,16 @@
 .opportunity-container {
   display: flex;
   width: 75%;
-  border: 2px solid red;
   justify-content: space-between;
-  margin-top: 20px;
+}
+#table-header {
+  background-color: var(--primary-color-dark);
+}
+.opportunity-container:nth-child(even) {
+  background-color: var(--primary-color);
+}
+.opportunity-container:nth-child(odd) {
+  background-color: var(--primary-color-light);
 }
 
 .opportunity-container .opportunity-info {

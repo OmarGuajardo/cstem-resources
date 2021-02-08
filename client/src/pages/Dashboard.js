@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Opportunity from "../components/Opportunity";
+import Application from "../components/Application";
 import "../styles/Opportunity.css";
 import "../styles/Dashboard.css";
 import { connect } from "react-redux";
@@ -30,7 +31,6 @@ function Dashboard(props) {
       <div className="side-nav-bar-container">
         <div className="logo-container">
           <FaReact className="dashboard-icon" />
-
           <h3 className="dashboard-title">C-STEM</h3>
         </div>
         <div className="actions-container"></div>
@@ -38,31 +38,7 @@ function Dashboard(props) {
           <h4 onClick={logOut}>Log Out</h4>
         </div>
       </div>
-      <div className="app-container">
-        <div className="app-title">
-          <h1>External Resources Database</h1>
-        </div>
-        <div className="opportunity-container">
-          <div id="delete-btn" className="opportunity-info">
-            <button>x</button>
-          </div>
-          <div className="opportunity-info">Program</div>
-          <div className="opportunity-info">Major</div>
-          <div className="opportunity-info">Participants</div>
-          <div className="opportunity-info">Deadline</div>
-        </div>
-        {props.opportunities.map((opportunity) => (
-          <Opportunity
-            name={opportunity.name}
-            classification={opportunity.classification}
-            url={opportunity.url}
-            major={opportunity.major}
-            participants={opportunity.participants}
-            deadline={opportunity.deadline}
-            key={opportunity._id}
-          />
-        ))}
-      </div>
+      <Application />
     </div>
   );
 }

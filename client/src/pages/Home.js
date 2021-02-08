@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaReact } from "react-icons/fa";
+
 import "../styles/Home.css";
 function Home() {
   return (

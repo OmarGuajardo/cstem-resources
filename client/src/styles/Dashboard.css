@@ -17,18 +17,22 @@
 .logo-container {
   margin-top: 20px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  /* background-color: blue; */
 }
 .logo-container .dashboard-icon {
+  /* background-color: red; */
+  display: inline-block;
   font-size: 50px;
   color: var(--primary-color);
 }
 .logo-container .dashboard-title {
+  padding-left: 10px;
+  display: inline-block;
   font-weight: 100;
-  font-size: 25px;
+  font-size: 27px;
   color: white;
-  margin-left: -50px;
 }
 
 .side-nav-bar-container .actions-container {
@@ -42,16 +46,9 @@
 }
 
 .log-out-btn h4 {
+  color: rgb(223, 223, 223);
   cursor: pointer;
   text-decoration: underline;
-}
-
-.app-container {
-  overflow-y: scroll;
-
-  width: 85%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-transform: uppercase;
+  font-weight: 100;
 }
