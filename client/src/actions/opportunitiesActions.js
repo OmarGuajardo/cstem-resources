@@ -1,4 +1,8 @@
-import { FETCH_OPPORTUNITIES, CREATE_OPPORTUNITY } from "./types";
+import {
+  FETCH_OPPORTUNITIES,
+  CREATE_OPPORTUNITY,
+  DELETE_OPPORTUNITY,
+} from "./types";
 import axios from "axios";
 export const fetchOpportunities = () => (dispatch) => {
   fetch("/api/opportunities?c=INL")
@@ -34,3 +38,5 @@ export const createOpportunity = (newOpportunity) => (dispatch) => {
       //TODO: Do something if we aren't able to save opportunity
     });
 };
+
+export const deleteOpportunity = (opportunitiesToDelete) => (dispatch) => {};

@@ -29,6 +29,13 @@ const quarterWidth = makeStyles((theme) => ({
 function Modal(props) {
   const [c, setC] = useState("EPM");
   const [program, setProgram] = useState({ classification: "EPM" });
+  const [attributes, setAttributes] = useState({
+    name: null,
+    url: null,
+    major: null,
+    participants: null,
+    deadline: null,
+  });
 
   const classifications = [
     {
@@ -57,11 +64,26 @@ function Modal(props) {
     setProgram({ ...program, classification: e.target.value });
   };
   const updateProgram = (e) => {
+    const name = e.target.name;
     setProgram({ ...program, [e.target.name]: e.target.value });
+
+    setAttributes({ ...attributes, [name]: false });
   };
 
   const saveProgram = () => {
-    props.createOpportunity(program);
+    let allowToSave = true;
+    const copyAttr = { ...attributes, name: true };
+    Object.keys(copyAttr).map((key, index) => {
+      if (copyAttr[key] != false) {
+        copyAttr[key] = true;
+        allowToSave = false;
+      }
+    });
+    setAttributes({ ...copyAttr });
+    if (allowToSave) {
+      props.createOpportunity(program);
+    }
+    // console.log(program);
   };
   const full = fullWidth();
   const quarter = quarterWidth();
@@ -74,43 +96,45 @@ function Modal(props) {
         </div>
         <div className="form-content">
           <form className={full.root} noValidate autoComplete="off">
-            <TextField
-              onChange={updateProgram}
-              id="standard-basic"
-              label="Name"
-              name="name"
-            />
-            <TextField
-              onChange={updateProgram}
-              id="standard-basic"
-              label="URL"
-              name="url"
-            />
+            {Object.keys(attributes).map((key, index) => {
+              if (index < 2) {
+                return (
+                  <TextField
+                    required={attributes[key]}
+                    key={key}
+                    onChange={updateProgram}
+                    id="standard-basic"
+                    error={attributes[key]}
+                    label={key.toUpperCase()}
+                    name={key}
+                    helperText={attributes[key] ? `Required` : "Perfect!"}
+                  />
+                );
+              }
+            })}
           </form>
           <form className={quarter.root} noValidate autoComplete="off">
+            {Object.keys(attributes).map((key, index) => {
+              if (index > 1) {
+                return (
+                  <TextField
+                    required={attributes[key]}
+                    key={key}
+                    onChange={updateProgram}
+                    id="standard-basic"
+                    error={attributes[key]}
+                    helperText={attributes[key] ? `Required` : "Perfect!"}
+                    label={key.toUpperCase()}
+                    name={key}
+                  />
+                );
+              }
+            })}
             <TextField
               onChange={updateProgram}
               id="standard-basic"
-              label="Major"
-              name="major"
-            />
-            <TextField
-              onChange={updateProgram}
-              id="standard-basic"
-              label="Participants"
-              name="participants"
-            />
-            <TextField
-              onChange={updateProgram}
-              id="standard-basic"
-              label="Deadline"
-              name="deadline"
-            />
-            <TextField
-              onChange={updateProgram}
-              id="standard-select-currency"
               select
-              label="Select"
+              label="CLASSIFICATION"
               value={c}
               onChange={handleChange}
               helperText="Please select the classification"
