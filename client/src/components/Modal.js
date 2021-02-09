@@ -64,15 +64,15 @@ function Modal(props) {
     setProgram({ ...program, classification: e.target.value });
   };
   const updateProgram = (e) => {
-    const name = e.target.name;
+    // const name = e.target.name;
     setProgram({ ...program, [e.target.name]: e.target.value });
 
-    setAttributes({ ...attributes, [name]: false });
+    setAttributes({ ...attributes, [e.target.name]: false });
   };
 
   const saveProgram = () => {
     let allowToSave = true;
-    const copyAttr = { ...attributes, name: true };
+    const copyAttr = { ...attributes };
     Object.keys(copyAttr).map((key, index) => {
       if (copyAttr[key] != false) {
         copyAttr[key] = true;
@@ -81,9 +81,9 @@ function Modal(props) {
     });
     setAttributes({ ...copyAttr });
     if (allowToSave) {
-      props.createOpportunity(program);
+      // props.createOpportunity(program);
+      console.log("Allowed to save");
     }
-    // console.log(program);
   };
   const full = fullWidth();
   const quarter = quarterWidth();
@@ -107,7 +107,7 @@ function Modal(props) {
                     error={attributes[key]}
                     label={key.toUpperCase()}
                     name={key}
-                    helperText={attributes[key] ? `Required` : "Perfect!"}
+                    helperText={attributes[key] ? `Required` : ""}
                   />
                 );
               }
@@ -123,7 +123,7 @@ function Modal(props) {
                     onChange={updateProgram}
                     id="standard-basic"
                     error={attributes[key]}
-                    helperText={attributes[key] ? `Required` : "Perfect!"}
+                    helperText={attributes[key] ? `Required` : ""}
                     label={key.toUpperCase()}
                     name={key}
                   />
