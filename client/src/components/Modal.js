@@ -26,9 +26,39 @@ const quarterWidth = makeStyles((theme) => ({
   },
 }));
 
+const classifications = [
+  {
+    label: "External Program by Major",
+    value: "EPM",
+  },
+  {
+    label: "External Programs for STEM",
+    value: "EPSTEM",
+  },
+  {
+    label: "Research Experience for Undergraduates",
+    value: "REU",
+  },
+  {
+    label: "Internships at National Labs",
+    value: "INL",
+  },
+  {
+    label: "Company Internships",
+    value: "CI",
+  },
+];
+
 function Modal(props) {
   const [c, setC] = useState("EPM");
-  const [program, setProgram] = useState({ classification: "EPM" });
+  const [program, setProgram] = useState({
+    name: "",
+    url: "",
+    major: "",
+    participants: "",
+    deadline: "",
+    classification: "EPM",
+  });
   const [attributes, setAttributes] = useState({
     name: null,
     url: null,
@@ -37,28 +67,6 @@ function Modal(props) {
     deadline: null,
   });
 
-  const classifications = [
-    {
-      label: "External Program by Major",
-      value: "EPM",
-    },
-    {
-      label: "External Programs for STEM",
-      value: "EPSTEM",
-    },
-    {
-      label: "Research Experience for Undergraduates",
-      value: "REU",
-    },
-    {
-      label: "Internships at National Labs",
-      value: "INL",
-    },
-    {
-      label: "Company Internships",
-      value: "CI",
-    },
-  ];
   const handleChange = (e) => {
     setC(e.target.value);
     setProgram({ ...program, classification: e.target.value });
@@ -73,20 +81,17 @@ function Modal(props) {
   const saveProgram = () => {
     let allowToSave = true;
     const copyAttr = { ...attributes };
-    Object.keys(copyAttr).map((key, index) => {
-      if (copyAttr[key] != false) {
+
+    Object.keys(program).map((key, index) => {
+      if (program[key].trim() === "") {
         copyAttr[key] = true;
-        allowToSave = false;
       }
     });
     setAttributes({ ...copyAttr });
     if (allowToSave) {
-      // props.createOpportunity(program);
-      console.log("Allowed to save");
+      props.createOpportunity(program);
     }
   };
-  const full = fullWidth();
-  const quarter = quarterWidth();
   return (
     <div className={props.show ? "background-blur" : "background-blur hidden"}>
       <div className="form-container">
@@ -95,7 +100,7 @@ function Modal(props) {
           <ImCross onClick={props.closeFunc} id="exitForm" />
         </div>
         <div className="form-content">
-          <form className={full.root} noValidate autoComplete="off">
+          <form className={fullWidth().root} noValidate autoComplete="off">
             {Object.keys(attributes).map((key, index) => {
               if (index < 2) {
                 return (
@@ -113,7 +118,7 @@ function Modal(props) {
               }
             })}
           </form>
-          <form className={quarter.root} noValidate autoComplete="off">
+          <form className={quarterWidth().root} noValidate autoComplete="off">
             {Object.keys(attributes).map((key, index) => {
               if (index > 1) {
                 return (
