@@ -92,7 +92,10 @@ function ErForm(props) {
     }
   };
   return (
-    <div className="form-container">
+    <div
+      style={{ width: props.width, height: props.height }}
+      className="form-container"
+    >
       <div className="form-heading">
         <h2>New Program</h2>
         <ImCross onClick={props.closeFunc} id="exitForm" />
