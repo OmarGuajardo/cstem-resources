@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "API to fetch resources for UTRGV CSTEM",
   "main": "index.js",
+  
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node server.js",

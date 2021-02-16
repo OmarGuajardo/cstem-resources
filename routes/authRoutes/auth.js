@@ -56,14 +56,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/checkToken", (req, res) => {
-  console.log(
-    "this is token from /checkToken cookies " + req.cookies.authToken
-  );
-  console.log(
-    "this is token from /checkToken header " + req.header("auth-token")
-  );
   const token = req.cookies.authToken || req.header("auth-token");
-  console.log("result of token " + token);
   if (!token) return res.status(400).send("Access Denied");
 
   try {

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Opportunity from "../components/Opportunity";
-import { fetchOpportunities } from "../actions/opportunitiesActions";
+import {
+  fetchOpportunities,
+  deleteOpportunity,
+} from "../actions/opportunitiesActions";
 import Checkbox from "@material-ui/core/Checkbox";
 import "../styles/ErDatabase.css";
 import Fab from "@material-ui/core/Fab";
@@ -69,8 +72,8 @@ function ErDatabase(props) {
     }
   };
   const handleDelete = () => {
-    //TODO: Delete items
-    console.log(stagedDelete);
+    let stagedDeleteID = stagedDelete.map((op) => op._id);
+    props.deleteOpportunity(stagedDeleteID);
   };
   return (
     <div>
@@ -122,4 +125,7 @@ const mapStateToProps = (state) => ({
   opportunities: state.opportunities.items,
 });
 
-export default connect(mapStateToProps, { fetchOpportunities })(ErDatabase);
+export default connect(mapStateToProps, {
+  fetchOpportunities,
+  deleteOpportunity,
+})(ErDatabase);

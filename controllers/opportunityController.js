@@ -10,7 +10,6 @@ const verify = require("../middleware/verfiyToken");
 
 //TODO: Implement Pagination
 opportunityController.get("/", async (req, res) => {
-  console.log("Someone is trying to get data");
   const { c } = req.query;
   if (c) {
     try {
@@ -32,12 +31,23 @@ opportunityController.get("/", async (req, res) => {
 // @route DELETE api/opportunity
 // @dessc Delete Opportunity
 // @access AUTH
-opportunityController.delete("/:id", verify, async (req, res) => {
+opportunityController.delete("/", verify, async (req, res) => {
   try {
-    const opportunity = await Opportunity.deleteOne({ _id: req.params.id });
-    res.status(200).send("Opportunity deleted.");
+    let opportunitiesToDelete = req.body.opportunitiesToDelete;
+
+    const opportunitiesDeleted = await Opportunity.deleteMany({
+      _id: { $in: opportunitiesToDelete },
+    });
+    res.status(200).json({
+      msg: "Opportunity(ies) deleted",
+      body: opportunitiesDeleted,
+    });
   } catch (err) {
-    res.status(400).send("Couldn't delete opportunity");
+    console.log("opportunities couldn't be deleted");
+    res.status(400).json({
+      msg: "Opportunity(ies) couldn't be deleted",
+      error: err,
+    });
   }
 });
 
@@ -76,7 +86,6 @@ opportunityController.post("/", verify, async (req, res) => {
   try {
     const urlResponse = await fetch(req.body.url);
     if (urlResponse.status != 200) {
-      console.log("URL WAS NOT FOUND");
       return res.status(404).json("URL was not found");
     }
     const opportunity = new Opportunity({

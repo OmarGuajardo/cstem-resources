@@ -4,6 +4,7 @@ import {
   DELETE_OPPORTUNITY,
 } from "./types";
 import axios from "axios";
+
 export const fetchOpportunities = () => (dispatch) => {
   fetch("/api/opportunities?c=INL")
     .then((res) => res.json())
@@ -39,4 +40,16 @@ export const createOpportunity = (newOpportunity) => (dispatch) => {
     });
 };
 
-export const deleteOpportunity = (opportunitiesToDelete) => (dispatch) => {};
+export const deleteOpportunity = (opportunitiesToDelete) => (dispatch) => {
+  const body = { opportunitiesToDelete: [...opportunitiesToDelete] };
+
+  axios
+    .delete("/api/opportunities", { data: body })
+    .then((res) => {
+      dispatch({
+        type: DELETE_OPPORTUNITY,
+        payload: opportunitiesToDelete,
+      });
+    })
+    .catch((err) => console.log("Somethign went wrong deleting the opps", err));
+};

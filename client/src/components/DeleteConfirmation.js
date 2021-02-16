@@ -5,12 +5,7 @@ import "../styles/DeleteConfirmation.css";
 function DeleteConfirmation(props) {
   return (
     <div>
-      <Button
-        onClick={props.handleDelete}
-        className="delete-btn"
-        variant="outlined"
-        color="error"
-      >
+      <Button id="delete-btn" onClick={props.handleDelete} variant="outlined">
         YES
       </Button>
     </div>
