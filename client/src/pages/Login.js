@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Login.css";
 import { connect } from "react-redux";
-import { loginUser } from "../actions/authActions";
-import { Redirect, useHistory } from "react-router-dom";
+import { loginUser, loginWithToken } from "../actions/authActions";
+import { Redirect } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { FaReact } from "react-icons/fa";
 import TextField from "@material-ui/core/TextField";
@@ -12,7 +12,9 @@ function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cookies, setCookie] = useCookies(["authToken"]);
-  let history = useHistory();
+  useEffect(() => {
+    props.loginWithToken(cookies.authToken);
+  }, []);
 
   const updateEmail = (e) => {
     setEmail(e.target.value);
@@ -59,6 +61,14 @@ function Login(props) {
           <Button type="submit" className="login-btn">
             Login
           </Button>
+          {/* <Button
+            onClick={() => {
+              props.loginWithToken(cookies.authToken);
+            }}
+            className="login-btn"
+          >
+            Login with Token
+          </Button> */}
         </div>
       </form>
     </div>
@@ -70,4 +80,4 @@ const mapStateToProps = (state) => ({
 });
 
 // export default Login;
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUser, loginWithToken })(Login);

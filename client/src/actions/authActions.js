@@ -30,3 +30,25 @@ export const logoutUser = () => (dispatch) => {
     type: LOGOUT_USER,
   });
 };
+
+export const loginWithToken = (token) => (dispatch) => {
+  axios
+    .get("/api/auth/checkToken")
+    .then((res) => {
+      const data = {
+        data: res.data.body,
+        token: token,
+      };
+      dispatch({
+        type: LOGIN_USER,
+        payload: data,
+      });
+    })
+    .catch((err) => {
+      //TODO: Set Loading to False and put Auth Error
+      dispatch({
+        type: AUTH_ERROR,
+        payload: err,
+      });
+    });
+};

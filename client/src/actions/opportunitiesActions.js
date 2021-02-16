@@ -5,6 +5,7 @@ import {
 } from "./types";
 import axios from "axios";
 
+//Retrieving Opportunities
 export const fetchOpportunities = () => (dispatch) => {
   fetch("/api/opportunities?c=INL")
     .then((res) => res.json())
@@ -17,16 +18,17 @@ export const fetchOpportunities = () => (dispatch) => {
     .catch((err) => console.log("something went wrong fetching the data"));
 };
 
+//Creating Opportunities
 export const createOpportunity = (newOpportunity) => (dispatch) => {
   const config = { headers: { "Content-Type": "application/json" } };
   axios
     .post("/api/opportunities", JSON.stringify(newOpportunity), config)
     .then((res) => {
       if (res.status === 200) {
-        console.log(res);
+        console.log(res.data.body);
         dispatch({
           type: CREATE_OPPORTUNITY,
-          payload: res.data,
+          payload: res.data.body,
         });
       } else {
         //TOOD: Do something if they gave us wrong info
@@ -40,16 +42,19 @@ export const createOpportunity = (newOpportunity) => (dispatch) => {
     });
 };
 
+//Deleting Opportunities
 export const deleteOpportunity = (opportunitiesToDelete) => (dispatch) => {
   const body = { opportunitiesToDelete: [...opportunitiesToDelete] };
 
   axios
     .delete("/api/opportunities", { data: body })
     .then((res) => {
-      dispatch({
-        type: DELETE_OPPORTUNITY,
-        payload: opportunitiesToDelete,
-      });
+      if (res.status == 200) {
+        dispatch({
+          type: DELETE_OPPORTUNITY,
+          payload: opportunitiesToDelete,
+        });
+      }
     })
     .catch((err) => console.log("Somethign went wrong deleting the opps", err));
 };

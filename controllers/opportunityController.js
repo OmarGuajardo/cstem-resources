@@ -61,7 +61,7 @@ opportunityController.patch("/:id", verify, async (req, res) => {
       req.body,
       { new: true }
     );
-    res.status(200).send(opportunity);
+    res.status(200).send({ msg: "Opportunity updated!", body: opportunity });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -97,7 +97,7 @@ opportunityController.post("/", verify, async (req, res) => {
       deadline: req.body.deadline,
     });
     const savedOpportunity = await opportunity.save();
-    res.status(200).json(savedOpportunity);
+    res.status(200).json({ msg: "Opportunity saved!", body: savedOpportunity });
   } catch (err) {
     return res.status(400).json("Something bad happend!");
   }

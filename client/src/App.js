@@ -19,7 +19,8 @@ function App() {
               <Route path="/" exact component={Home} />
               <Route path="/login" component={Login} />
 
-              <Route path="/dashboard" component={checkToken(Dashboard)} />
+              <Route path="/dashboard" component={Dashboard} />
+              {/* <Route path="/dashboard" component={checkToken(Dashboard)} /> */}
             </Switch>
           </div>
         </Router>

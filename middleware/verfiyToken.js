@@ -9,6 +9,7 @@ function auth(req, res, next) {
     req.user = verified;
     next();
   } catch (err) {
+    console.log(token, " this is an invalid token");
     res.status(400).send("Invalid Token");
   }
 }

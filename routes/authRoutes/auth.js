@@ -6,7 +6,7 @@ const {
 const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const verify = require("../../middleware/verfiyToken");
 router.post("/register", async (req, res) => {
   //Making sure request meets our template
   const { error } = await userValidation(req.body);
@@ -55,16 +55,25 @@ router.post("/login", async (req, res) => {
   res.header("auth-token", token).send(data);
 });
 
-router.get("/checkToken", (req, res) => {
-  const token = req.cookies.authToken || req.header("auth-token");
-  if (!token) return res.status(400).send("Access Denied");
+router.get("/checkToken", verify, async (req, res) => {
+  const user = await User.findOne({ _id: req.user.id });
+  res.status(200).json({
+    msg: "User is verified!",
+    body: {
+      name: user.name,
+      email: user.email,
+      _id: user._id,
+    },
+  });
+  // const token = req.cookies.authToken || req.header("auth-token");
+  // if (!token) return res.status(400).send("Access Denied");
 
-  try {
-    const verified = jwt.verify(token, process.env.SERVER_SECRET);
-    res.status(200).send(verified);
-  } catch (err) {
-    res.status(400).send("Invalid Token");
-  }
+  // try {
+  //   const verified = jwt.verify(token, process.env.SERVER_SECRET);
+  //   res.status(200).send(verified);
+  // } catch (err) {
+  //   res.status(400).send("Invalid Token");
+  // }
 });
 
 module.exports = router;
