@@ -9,13 +9,15 @@ import { GrAdd, GrTrash } from "react-icons/gr";
 import Modal from "../components/Modal";
 
 import Button from "@material-ui/core/Button";
+import ErForm from "../components/ErForm";
+import DeleteConfirmation from "../components/DeleteConfirmation";
 // import DeleteIcon from "@material-ui/icons/Delete";
 
 function ErDatabase(props) {
   const [modal, setModal] = useState(false);
   const [stagedDelete, setStagedDelete] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-
+  const [modalAppSettings, setModalAppSettings] = useState({});
   useEffect(() => {
     props.fetchOpportunities();
     document.addEventListener("keydown", closeModalOnPress, false);
@@ -23,7 +25,30 @@ function ErDatabase(props) {
       document.removeEventListener("keydown", closeModalOnPress, false);
     };
   }, []);
-  const openModal = () => {
+  const openModal = (modalAppName) => {
+    const settings = {
+      name: modalAppName,
+      height: "",
+      width: "",
+      component: "",
+    };
+    switch (modalAppName) {
+      case "erForm":
+        settings.name = "New Opportunity";
+        settings.height = "65%";
+        settings.width = "60%";
+        settings.component = <ErForm />;
+        break;
+      case "deleteConfirmation":
+        settings.name = "Delete these items?";
+        settings.height = "auto";
+        settings.width = "30%";
+        settings.component = <DeleteConfirmation handleDelete={handleDelete} />;
+        break;
+      default:
+        break;
+    }
+    setModalAppSettings(settings);
     setModal(true);
   };
   const closeModalOnPress = (e) => {
@@ -43,13 +68,16 @@ function ErDatabase(props) {
       setStagedDelete(filtered);
     }
   };
-
+  const handleDelete = () => {
+    //TODO: Delete items
+    console.log(stagedDelete);
+  };
   return (
     <div>
       <div className="app-title">
         <h1>External Resources Database</h1>
         <Button
-          onClick={() => console.log(stagedDelete)}
+          onClick={() => openModal("deleteConfirmation")}
           variant="contained"
           id={stagedDelete.length > 0 ? "delete-btn-table" : "hidden"}
           color="primary"
@@ -72,8 +100,17 @@ function ErDatabase(props) {
           key={opportunity._id}
         />
       ))}
-      <Modal closeFunc={closeModal} show={modal} />
-      <Fab onClick={openModal} id="fabDB">
+      <Modal
+        modalAppSettings={modalAppSettings}
+        closeFunc={closeModal}
+        show={modal}
+      />
+      <Fab
+        onClick={() => {
+          openModal("erForm");
+        }}
+        id="fabDB"
+      >
         <GrAdd id="add-icon-fab" />
       </Fab>
     </div>

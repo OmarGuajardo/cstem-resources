@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fab from "@material-ui/core/Fab";
 import { FaRegSave } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
 import { connect } from "react-redux";
 import { createOpportunity } from "../actions/opportunitiesActions";
 
@@ -92,67 +91,58 @@ function ErForm(props) {
     }
   };
   return (
-    <div
-      style={{ width: props.width, height: props.height }}
-      className="form-container"
-    >
-      <div className="form-heading">
-        <h2>New Program</h2>
-        <ImCross onClick={props.closeFunc} id="exitForm" />
-      </div>
-      <div className="form-content">
-        <form className={fullWidth().root} noValidate autoComplete="off">
-          {Object.keys(attributes).map((key, index) => {
-            if (index < 2) {
-              return (
-                <TextField
-                  required={attributes[key]}
-                  key={key}
-                  onChange={updateProgram}
-                  id="standard-basic"
-                  error={attributes[key]}
-                  label={key.toUpperCase()}
-                  name={key}
-                  helperText={attributes[key] ? `Required` : ""}
-                />
-              );
-            }
-          })}
-        </form>
-        <form className={quarterWidth().root} noValidate autoComplete="off">
-          {Object.keys(attributes).map((key, index) => {
-            if (index > 1) {
-              return (
-                <TextField
-                  required={attributes[key]}
-                  key={key}
-                  onChange={updateProgram}
-                  id="standard-basic"
-                  error={attributes[key]}
-                  helperText={attributes[key] ? `Required` : ""}
-                  label={key.toUpperCase()}
-                  name={key}
-                />
-              );
-            }
-          })}
-          <TextField
-            onChange={updateProgram}
-            id="standard-basic"
-            select
-            label="CLASSIFICATION"
-            value={c}
-            onChange={handleChange}
-            helperText="Please select the classification"
-          >
-            {classifications.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </form>
-      </div>
+    <div>
+      <form className={fullWidth().root} noValidate autoComplete="off">
+        {Object.keys(attributes).map((key, index) => {
+          if (index < 2) {
+            return (
+              <TextField
+                required={attributes[key]}
+                key={key}
+                onChange={updateProgram}
+                id="standard-basic"
+                error={attributes[key]}
+                label={key.toUpperCase()}
+                name={key}
+                helperText={attributes[key] ? `Required` : ""}
+              />
+            );
+          }
+        })}
+      </form>
+      <form className={quarterWidth().root} noValidate autoComplete="off">
+        {Object.keys(attributes).map((key, index) => {
+          if (index > 1) {
+            return (
+              <TextField
+                required={attributes[key]}
+                key={key}
+                onChange={updateProgram}
+                id="standard-basic"
+                error={attributes[key]}
+                helperText={attributes[key] ? `Required` : ""}
+                label={key.toUpperCase()}
+                name={key}
+              />
+            );
+          }
+        })}
+        <TextField
+          onChange={updateProgram}
+          id="standard-basic"
+          select
+          label="CLASSIFICATION"
+          value={c}
+          onChange={handleChange}
+          helperText="Please select the classification"
+        >
+          {classifications.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+      </form>
       <Fab onClick={saveProgram} id="fabForm">
         <FaRegSave id="save-icon-fab" />
       </Fab>
