@@ -22,7 +22,6 @@ import { Fragment } from "react";
 import Skeleton from "@yisheng90/react-loading";
 
 function ErDatabase(props) {
-  const dummyData = [0, 1, 2, 3, 4, 4, 5, 6, 7, 8];
   const [modal, setModal] = useState(false);
   const [stagedDelete, setStagedDelete] = useState([]);
   const [modalAppSettings, setModalAppSettings] = useState({});
@@ -34,7 +33,6 @@ function ErDatabase(props) {
     };
   }, []);
   const openModal = (actionType, opportunity) => {
-    // x = 0;
     const settings = {
       name: "",
       height: "",
@@ -86,6 +84,7 @@ function ErDatabase(props) {
   const handleDelete = () => {
     let stagedDeleteID = stagedDelete.map((op) => op._id);
     props.deleteOpportunity(stagedDeleteID);
+    setStagedDelete([]);
   };
   const loadingOpportunities = (
     <Fragment>
@@ -128,14 +127,7 @@ function ErDatabase(props) {
       {props.loading.FETCHING_OPPORTUNITY
         ? loadingOpportunities
         : loadedOpportunities}
-      {/* {props.opportunities.map((opportunity) => (
-        <Opportunity
-          openModal={openModal}
-          handleOnChange={addToDeleteStage}
-          opportunity={opportunity}
-          key={opportunity._id}
-        />
-      ))} */}
+
       <Modal
         modalAppSettings={modalAppSettings}
         closeFunc={closeModal}

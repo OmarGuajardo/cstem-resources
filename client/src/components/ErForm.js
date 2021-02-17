@@ -6,11 +6,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Fab from "@material-ui/core/Fab";
 import { FaRegSave } from "react-icons/fa";
 import { connect } from "react-redux";
-import { UPDATING_OPPORTUNITY, CREATING_OPPORTUNITY } from "../actions/types";
 import {
   createOpportunity,
   updateOpportunity,
 } from "../actions/opportunitiesActions";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const fullWidth = makeStyles((theme) => ({
   root: {
@@ -57,6 +57,10 @@ function ErForm(props) {
     setDefaultValues(props.opportunity);
   }, [props.opportunity]);
 
+  const [open, setOpen] = useState(true);
+  const handleClose = () => {
+    setOpen(false);
+  };
   const [program, setProgram] = useState({
     name: "",
     url: "",
@@ -181,6 +185,16 @@ function ErForm(props) {
       >
         <FaRegSave id="save-icon-fab" />
       </Fab>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={open}
+        // autoHideDuration={10000}
+        onClose={handleClose}
+        message="Note archived"
+      />
     </div>
   );
 }
