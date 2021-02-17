@@ -61,14 +61,6 @@ function Login(props) {
           <Button type="submit" className="login-btn">
             Login
           </Button>
-          {/* <Button
-            onClick={() => {
-              props.loginWithToken(cookies.authToken);
-            }}
-            className="login-btn"
-          >
-            Login with Token
-          </Button> */}
         </div>
       </form>
     </div>

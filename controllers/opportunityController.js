@@ -54,7 +54,7 @@ opportunityController.delete("/", verify, async (req, res) => {
 // @route UPDATE api/opportunity
 // @dessc UPDATE Opportunity
 // @access AUTH
-opportunityController.patch("/:id", verify, async (req, res) => {
+opportunityController.put("/:id", verify, async (req, res) => {
   try {
     const opportunity = await Opportunity.findByIdAndUpdate(
       req.params.id,
@@ -63,6 +63,7 @@ opportunityController.patch("/:id", verify, async (req, res) => {
     );
     res.status(200).send({ msg: "Opportunity updated!", body: opportunity });
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 });

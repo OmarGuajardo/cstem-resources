@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Modal.css";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,9 +6,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Fab from "@material-ui/core/Fab";
 import { FaRegSave } from "react-icons/fa";
 import { connect } from "react-redux";
-import { createOpportunity } from "../actions/opportunitiesActions";
+import {
+  createOpportunity,
+  updateOpportunity,
+} from "../actions/opportunitiesActions";
 
-//TODO: Put this in a seperate file
 const fullWidth = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -50,15 +52,19 @@ const classifications = [
 ];
 
 function ErForm(props) {
-  const [c, setC] = useState("EPM");
+  useEffect(() => {
+    setDefaultValues(props.opportunity);
+  }, [props.opportunity]);
+
   const [program, setProgram] = useState({
     name: "",
     url: "",
     major: "",
     participants: "",
     deadline: "",
-    classification: "EPM",
+    classification: "",
   });
+  const [c, setC] = useState("INL");
   const [attributes, setAttributes] = useState({
     name: null,
     url: null,
@@ -67,6 +73,16 @@ function ErForm(props) {
     deadline: null,
   });
 
+  const setDefaultValues = (opp) => {
+    setProgram({
+      name: opp ? opp.name : "",
+      url: opp ? opp.url : "",
+      major: opp ? opp.major : "",
+      participants: opp ? opp.participants : "",
+      deadline: opp ? opp.deadline : "",
+      classification: opp ? opp.classification : "INL",
+    });
+  };
   const handleChange = (e) => {
     setC(e.target.value);
     setProgram({ ...program, classification: e.target.value });
@@ -83,11 +99,21 @@ function ErForm(props) {
     Object.keys(program).map((key, index) => {
       if (program[key].trim() === "") {
         copyAttr[key] = true;
+        allowToSave = false;
       }
     });
     setAttributes({ ...copyAttr });
     if (allowToSave) {
-      props.createOpportunity(program);
+      switch (props.type) {
+        case "POST":
+          props.createOpportunity(program);
+          break;
+        case "PUT":
+          props.updateOpportunity(program, props.opportunity._id);
+          break;
+        default:
+          return;
+      }
     }
   };
   return (
@@ -97,6 +123,7 @@ function ErForm(props) {
           if (index < 2) {
             return (
               <TextField
+                value={program[key]}
                 required={attributes[key]}
                 key={key}
                 onChange={updateProgram}
@@ -115,6 +142,7 @@ function ErForm(props) {
           if (index > 1) {
             return (
               <TextField
+                value={program[key]}
                 required={attributes[key]}
                 key={key}
                 onChange={updateProgram}
@@ -128,7 +156,6 @@ function ErForm(props) {
           }
         })}
         <TextField
-          onChange={updateProgram}
           id="standard-basic"
           select
           label="CLASSIFICATION"
@@ -150,4 +177,4 @@ function ErForm(props) {
   );
 }
 
-export default connect(null, { createOpportunity })(ErForm);
+export default connect(null, { createOpportunity, updateOpportunity })(ErForm);

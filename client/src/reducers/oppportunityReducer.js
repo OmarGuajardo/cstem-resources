@@ -2,11 +2,22 @@ import {
   FETCH_OPPORTUNITIES,
   CREATE_OPPORTUNITY,
   DELETE_OPPORTUNITY,
+  UPDATE_OPPORTUNITY,
+  CREATING_NEW_OPPORTUNITY,
+  UPDATING_OPPORTUNITY,
+  DELETING_OPPORTUNITY,
+  FETCHING_OPPORTUNITY,
 } from "../actions/types";
 
 const intialState = {
   items: [],
-  item: {},
+  error: null,
+  loading: {
+    CREATING_NEW_OPPORTUNITY: false,
+    UPDATING_OPPORTUNITY: false,
+    DELETING_OPPORTUNITY: false,
+    FETCHING_OPPORTUNITY: false,
+  },
 };
 
 export default (state = intialState, action) => {
@@ -20,6 +31,11 @@ export default (state = intialState, action) => {
       return {
         ...state,
         items: [...state.items, action.payload],
+      };
+    case UPDATE_OPPORTUNITY:
+      return {
+        ...state,
+        items: action.payload,
       };
     case DELETE_OPPORTUNITY:
       return {

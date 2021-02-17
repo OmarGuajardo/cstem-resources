@@ -5,7 +5,6 @@ import {
   fetchOpportunities,
   deleteOpportunity,
 } from "../actions/opportunitiesActions";
-import Checkbox from "@material-ui/core/Checkbox";
 import "../styles/ErDatabase.css";
 import Fab from "@material-ui/core/Fab";
 import { GrAdd, GrTrash } from "react-icons/gr";
@@ -14,12 +13,15 @@ import Modal from "../components/Modal";
 import Button from "@material-ui/core/Button";
 import ErForm from "../components/ErForm";
 import DeleteConfirmation from "../components/DeleteConfirmation";
-// import DeleteIcon from "@material-ui/icons/Delete";
+import {
+  UPDATE_OPPORTUNITY,
+  CREATE_OPPORTUNITY,
+  DELETE_OPPORTUNITY,
+} from "../actions/types";
 
 function ErDatabase(props) {
   const [modal, setModal] = useState(false);
   const [stagedDelete, setStagedDelete] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
   const [modalAppSettings, setModalAppSettings] = useState({});
   useEffect(() => {
     props.fetchOpportunities();
@@ -28,21 +30,28 @@ function ErDatabase(props) {
       document.removeEventListener("keydown", closeModalOnPress, false);
     };
   }, []);
-  const openModal = (modalAppName) => {
+  const openModal = (actionType, opportunity) => {
+    // x = 0;
     const settings = {
-      name: modalAppName,
+      name: "",
       height: "",
       width: "",
       component: "",
     };
-    switch (modalAppName) {
-      case "erForm":
+    switch (actionType) {
+      case CREATE_OPPORTUNITY:
         settings.name = "New Opportunity";
         settings.height = "65%";
         settings.width = "60%";
-        settings.component = <ErForm />;
+        settings.component = <ErForm type="POST" opportunity={null} />;
         break;
-      case "deleteConfirmation":
+      case UPDATE_OPPORTUNITY:
+        settings.name = "Update Opportunity";
+        settings.height = "65%";
+        settings.width = "60%";
+        settings.component = <ErForm type="PUT" opportunity={opportunity} />;
+        break;
+      case DELETE_OPPORTUNITY:
         settings.name = "Delete these items?";
         settings.height = "auto";
         settings.width = "30%";
@@ -80,7 +89,7 @@ function ErDatabase(props) {
       <div className="app-title">
         <h1>External Resources Database</h1>
         <Button
-          onClick={() => openModal("deleteConfirmation")}
+          onClick={() => openModal(DELETE_OPPORTUNITY)}
           variant="contained"
           id={stagedDelete.length > 0 ? "delete-btn-table" : "hidden"}
           color="primary"
@@ -98,6 +107,7 @@ function ErDatabase(props) {
       </div>
       {props.opportunities.map((opportunity) => (
         <Opportunity
+          openModal={openModal}
           handleOnChange={addToDeleteStage}
           opportunity={opportunity}
           key={opportunity._id}
@@ -110,7 +120,7 @@ function ErDatabase(props) {
       />
       <Fab
         onClick={() => {
-          openModal("erForm");
+          openModal(CREATE_OPPORTUNITY);
         }}
         id="fabDB"
       >

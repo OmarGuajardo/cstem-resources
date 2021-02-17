@@ -2,6 +2,7 @@ import {
   FETCH_OPPORTUNITIES,
   CREATE_OPPORTUNITY,
   DELETE_OPPORTUNITY,
+  UPDATE_OPPORTUNITY,
 } from "./types";
 import axios from "axios";
 
@@ -40,6 +41,34 @@ export const createOpportunity = (newOpportunity) => (dispatch) => {
       console.log("There was an error making an Opportunity");
       //TODO: Do something if we aren't able to save opportunity
     });
+};
+//UPDATING Opportunity
+export const updateOpportunity = (updatedOpportunity, id) => (
+  dispatch,
+  getState
+) => {
+  axios
+    .put(`/api/opportunities/${id}`, updatedOpportunity)
+    .then((res) => {
+      if (res.status === 200) {
+        let updatedOpportunities = getState().opportunities.items.filter(
+          (op) => op._id !== id
+        );
+        updatedOpportunities = [...updatedOpportunities, res.data.body];
+        dispatch({
+          type: UPDATE_OPPORTUNITY,
+          payload: updatedOpportunities,
+        });
+      } else {
+        //TOOD: Do something if they gave us wrong info
+        console.log("Something went wrong when saving opp " + res);
+      }
+    })
+    .catch((err) => {
+      console.log("There was an error updating an Opportunity", err);
+      //TODO: Do something if we aren't able to save opportunity
+    });
+  // console.log(updateOpportunity, " from the actions thingy");
 };
 
 //Deleting Opportunities
