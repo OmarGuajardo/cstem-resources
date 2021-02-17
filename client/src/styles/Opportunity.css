@@ -8,6 +8,7 @@
 }
 #table-header {
   background-color: var(--primary-color-dark);
+  width: 100%;
 }
 .opportunity-container:nth-child(even) {
   background-color: var(--primary-color);

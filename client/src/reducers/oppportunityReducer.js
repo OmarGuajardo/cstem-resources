@@ -3,6 +3,7 @@ import {
   CREATE_OPPORTUNITY,
   DELETE_OPPORTUNITY,
   UPDATE_OPPORTUNITY,
+  SET_LOADING,
   CREATING_NEW_OPPORTUNITY,
   UPDATING_OPPORTUNITY,
   DELETING_OPPORTUNITY,
@@ -26,25 +27,30 @@ export default (state = intialState, action) => {
       return {
         ...state,
         items: action.payload,
+        loading: { ...state.loading, FETCHING_OPPORTUNITY: false },
       };
     case CREATE_OPPORTUNITY:
       return {
         ...state,
         items: [...state.items, action.payload],
+        loading: { ...state.loading, CREATING_NEW_OPPORTUNITY: false },
       };
     case UPDATE_OPPORTUNITY:
       return {
         ...state,
         items: action.payload,
+        loading: { ...state.loading, UPDATING_OPPORTUNITY: false },
       };
     case DELETE_OPPORTUNITY:
       return {
         ...state,
-        items: state.items.filter((item) => {
-          if (!action.payload.includes(item._id)) {
-            return item;
-          }
-        }),
+        items: action.payload,
+        loading: { ...state.loading, DELETING_OPPORTUNITY: false },
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: { ...state.loading, [action.payload]: true },
       };
     default:
       return state;

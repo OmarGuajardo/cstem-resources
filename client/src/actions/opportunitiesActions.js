@@ -3,11 +3,17 @@ import {
   CREATE_OPPORTUNITY,
   DELETE_OPPORTUNITY,
   UPDATE_OPPORTUNITY,
+  SET_LOADING,
+  FETCHING_OPPORTUNITY,
 } from "./types";
 import axios from "axios";
 
 //Retrieving Opportunities
 export const fetchOpportunities = () => (dispatch) => {
+  dispatch({
+    type: SET_LOADING,
+    payload: FETCHING_OPPORTUNITY,
+  });
   fetch("/api/opportunities?c=INL")
     .then((res) => res.json())
     .then((data) => {
@@ -72,16 +78,26 @@ export const updateOpportunity = (updatedOpportunity, id) => (
 };
 
 //Deleting Opportunities
-export const deleteOpportunity = (opportunitiesToDelete) => (dispatch) => {
+export const deleteOpportunity = (opportunitiesToDelete) => (
+  dispatch,
+  getState
+) => {
   const body = { opportunitiesToDelete: [...opportunitiesToDelete] };
 
   axios
     .delete("/api/opportunities", { data: body })
     .then((res) => {
       if (res.status == 200) {
+        let updatedOpportunities = getState().opportunities.items.filter(
+          (op) => {
+            if (!opportunitiesToDelete.includes(op._id)) {
+              return op;
+            }
+          }
+        );
         dispatch({
           type: DELETE_OPPORTUNITY,
-          payload: opportunitiesToDelete,
+          payload: updatedOpportunities,
         });
       }
     })

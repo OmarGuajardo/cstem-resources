@@ -18,8 +18,11 @@ import {
   CREATE_OPPORTUNITY,
   DELETE_OPPORTUNITY,
 } from "../actions/types";
+import { Fragment } from "react";
+import Skeleton from "@yisheng90/react-loading";
 
 function ErDatabase(props) {
+  const dummyData = [0, 1, 2, 3, 4, 4, 5, 6, 7, 8];
   const [modal, setModal] = useState(false);
   const [stagedDelete, setStagedDelete] = useState([]);
   const [modalAppSettings, setModalAppSettings] = useState({});
@@ -84,20 +87,13 @@ function ErDatabase(props) {
     let stagedDeleteID = stagedDelete.map((op) => op._id);
     props.deleteOpportunity(stagedDeleteID);
   };
-  return (
-    <div>
-      <div className="app-title">
-        <h1>External Resources Database</h1>
-        <Button
-          onClick={() => openModal(DELETE_OPPORTUNITY)}
-          variant="contained"
-          id={stagedDelete.length > 0 ? "delete-btn-table" : "hidden"}
-          color="primary"
-          startIcon={<GrTrash />}
-        >
-          Delete
-        </Button>
-      </div>
+  const loadingOpportunities = (
+    <Fragment>
+      <Skeleton color={"#3f6146"} rows={10} width={"100%"} height={"23%"} />
+    </Fragment>
+  );
+  const loadedOpportunities = (
+    <Fragment>
       <div id="table-header" className="opportunity-container">
         <div id="delete-btn" className="opportunity-info"></div>
         <div className="opportunity-info">Program</div>
@@ -113,6 +109,33 @@ function ErDatabase(props) {
           key={opportunity._id}
         />
       ))}
+    </Fragment>
+  );
+  return (
+    <div style={{ width: "100%" }}>
+      <div className="app-title">
+        <h1>External Resources Database</h1>
+        <Button
+          onClick={() => openModal(DELETE_OPPORTUNITY)}
+          variant="contained"
+          id={stagedDelete.length > 0 ? "delete-btn-table" : "hidden"}
+          color="primary"
+          startIcon={<GrTrash />}
+        >
+          Delete
+        </Button>
+      </div>
+      {props.loading.FETCHING_OPPORTUNITY
+        ? loadingOpportunities
+        : loadedOpportunities}
+      {/* {props.opportunities.map((opportunity) => (
+        <Opportunity
+          openModal={openModal}
+          handleOnChange={addToDeleteStage}
+          opportunity={opportunity}
+          key={opportunity._id}
+        />
+      ))} */}
       <Modal
         modalAppSettings={modalAppSettings}
         closeFunc={closeModal}
@@ -133,6 +156,7 @@ function ErDatabase(props) {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   opportunities: state.opportunities.items,
+  loading: state.opportunities.loading,
 });
 
 export default connect(mapStateToProps, {
