@@ -5,6 +5,9 @@ import {
   UPDATE_OPPORTUNITY,
   SET_LOADING,
   FETCHING_OPPORTUNITY,
+  UPDATING_OPPORTUNITY,
+  DELETING_OPPORTUNITY,
+  CREATING_NEW_OPPORTUNITY,
 } from "./types";
 import axios from "axios";
 
@@ -27,6 +30,10 @@ export const fetchOpportunities = () => (dispatch) => {
 
 //Creating Opportunities
 export const createOpportunity = (newOpportunity) => (dispatch) => {
+  dispatch({
+    type: SET_LOADING,
+    payload: CREATING_NEW_OPPORTUNITY,
+  });
   const config = { headers: { "Content-Type": "application/json" } };
   axios
     .post("/api/opportunities", JSON.stringify(newOpportunity), config)
@@ -53,6 +60,10 @@ export const updateOpportunity = (updatedOpportunity, id) => (
   dispatch,
   getState
 ) => {
+  dispatch({
+    type: SET_LOADING,
+    payload: UPDATING_OPPORTUNITY,
+  });
   axios
     .put(`/api/opportunities/${id}`, updatedOpportunity)
     .then((res) => {
@@ -66,15 +77,12 @@ export const updateOpportunity = (updatedOpportunity, id) => (
           payload: updatedOpportunities,
         });
       } else {
-        //TOOD: Do something if they gave us wrong info
         console.log("Something went wrong when saving opp " + res);
       }
     })
     .catch((err) => {
       console.log("There was an error updating an Opportunity", err);
-      //TODO: Do something if we aren't able to save opportunity
     });
-  // console.log(updateOpportunity, " from the actions thingy");
 };
 
 //Deleting Opportunities
@@ -82,6 +90,10 @@ export const deleteOpportunity = (opportunitiesToDelete) => (
   dispatch,
   getState
 ) => {
+  dispatch({
+    type: SET_LOADING,
+    payload: DELETING_OPPORTUNITY,
+  });
   const body = { opportunitiesToDelete: [...opportunitiesToDelete] };
 
   axios

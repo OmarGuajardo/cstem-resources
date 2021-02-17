@@ -142,6 +142,7 @@ function ErDatabase(props) {
         show={modal}
       />
       <Fab
+        disabled={props.loading.FETCHING_OPPORTUNITY}
         onClick={() => {
           openModal(CREATE_OPPORTUNITY);
         }}

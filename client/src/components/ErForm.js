@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Fab from "@material-ui/core/Fab";
 import { FaRegSave } from "react-icons/fa";
 import { connect } from "react-redux";
+import { UPDATING_OPPORTUNITY, CREATING_OPPORTUNITY } from "../actions/types";
 import {
   createOpportunity,
   updateOpportunity,
@@ -170,11 +171,23 @@ function ErForm(props) {
           ))}
         </TextField>
       </form>
-      <Fab onClick={saveProgram} id="fabForm">
+      <Fab
+        disabled={
+          props.loading.UPDATING_OPPORTUNITY ||
+          props.loading.CREATING_NEW_OPPORTUNITY
+        }
+        onClick={saveProgram}
+        id="fabForm"
+      >
         <FaRegSave id="save-icon-fab" />
       </Fab>
     </div>
   );
 }
-
-export default connect(null, { createOpportunity, updateOpportunity })(ErForm);
+const mapStateToProps = (state) => ({
+  loading: state.opportunities.loading,
+});
+export default connect(mapStateToProps, {
+  createOpportunity,
+  updateOpportunity,
+})(ErForm);
