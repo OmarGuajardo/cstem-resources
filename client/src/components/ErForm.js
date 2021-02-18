@@ -199,7 +199,7 @@ function ErForm(props) {
       >
         <FaRegSave id="save-icon-fab" />
       </Fab>
-
+      {snackBar}
       {/* <Snackbar
         anchorOrigin={{
           vertical: "bottom",

@@ -40,10 +40,9 @@ export const createOpportunity = (newOpportunity) => async (
       JSON.stringify(newOpportunity),
       config
     );
-
     dispatch({
       type: CREATE_OPPORTUNITY,
-      payload: [...getState.opportunities.items, res.data.body],
+      payload: [...getState().opportunities.items, res.data.body],
     });
     clearErrors(dispatch);
   } catch (err) {
