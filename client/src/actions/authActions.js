@@ -44,11 +44,5 @@ export const loginWithToken = (token) => (dispatch) => {
         payload: data,
       });
     })
-    .catch((err) => {
-      //TODO: Set Loading to False and put Auth Error
-      dispatch({
-        type: AUTH_ERROR,
-        payload: err,
-      });
-    });
+    .catch((err) => {});
 };

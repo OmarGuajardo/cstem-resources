@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import MenuItem from "@material-ui/core/MenuItem";
 import { connect } from "react-redux";
 import Opportunity from "../components/Opportunity";
 import {
@@ -13,6 +14,7 @@ import Modal from "../components/Modal";
 import Button from "@material-ui/core/Button";
 import ErForm from "../components/ErForm";
 import DeleteConfirmation from "../components/DeleteConfirmation";
+import TextField from "@material-ui/core/TextField";
 import {
   UPDATE_OPPORTUNITY,
   CREATE_OPPORTUNITY,
@@ -25,13 +27,39 @@ function ErDatabase(props) {
   const [modal, setModal] = useState(false);
   const [stagedDelete, setStagedDelete] = useState([]);
   const [modalAppSettings, setModalAppSettings] = useState({});
+  const [classification, setClassification] = useState("INL");
+  const handleChange = (e) => {
+    setClassification(e.target.value);
+  };
+  const classifications = [
+    {
+      label: "External Program by Major",
+      value: "EPM",
+    },
+    {
+      label: "External Programs for STEM",
+      value: "EPSTEM",
+    },
+    {
+      label: "Research Experience for Undergraduates",
+      value: "REU",
+    },
+    {
+      label: "Internships at National Labs",
+      value: "INL",
+    },
+    {
+      label: "Company Internships",
+      value: "CI",
+    },
+  ];
   useEffect(() => {
-    props.fetchOpportunities();
+    props.fetchOpportunities(classification);
     document.addEventListener("keydown", closeModalOnPress, false);
     return () => {
       document.removeEventListener("keydown", closeModalOnPress, false);
     };
-  }, []);
+  }, [classification]);
   const openModal = (actionType, opportunity) => {
     const settings = {
       name: "",
@@ -56,7 +84,12 @@ function ErDatabase(props) {
         settings.name = "Delete these items?";
         settings.height = "auto";
         settings.width = "30%";
-        settings.component = <DeleteConfirmation handleDelete={handleDelete} />;
+        settings.component = (
+          <DeleteConfirmation
+            closeFunc={closeModal}
+            handleDelete={handleDelete}
+          />
+        );
         break;
       default:
         break;
@@ -114,6 +147,23 @@ function ErDatabase(props) {
     <div style={{ width: "100%" }}>
       <div className="app-title">
         <h1>External Resources Database</h1>
+        <div id={stagedDelete.length > 0 ? "hidden" : ""}>
+          <TextField
+            id="standard-basic"
+            select
+            label="CLASSIFICATION"
+            value={classification}
+            onChange={handleChange}
+            helperText="Please select the classification"
+          >
+            {classifications.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        </div>
+
         <Button
           onClick={() => openModal(DELETE_OPPORTUNITY)}
           variant="contained"

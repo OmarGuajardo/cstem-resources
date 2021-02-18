@@ -11,7 +11,6 @@ import {
   updateOpportunity,
 } from "../actions/opportunitiesActions";
 import Snackbar from "@material-ui/core/Snackbar";
-import { Fragment } from "react";
 
 const fullWidth = makeStyles((theme) => ({
   root: {
@@ -55,27 +54,31 @@ const classifications = [
 
 function ErForm(props) {
   useEffect(() => {
-    setDefaultValues(props.opportunity);
-  }, [props.opportunity]);
-
-  useEffect(() => {
+    console.log("set snackbar");
     const { CREATE_OPPORTUNITY, UPDATE_OPPORTUNITY } = props.loading;
-    //loading
     //error
-    if (props.error) {
+    if (CREATE_OPPORTUNITY || UPDATE_OPPORTUNITY) {
+      setOpen(true);
+      setSnackBarMessage("Saving changes...");
+    }
+    //loading
+    else if (props.error) {
       setOpen(true);
       setSnackBarMessage(props.message);
     }
-    //succes
-    else if (CREATE_OPPORTUNITY || UPDATE_OPPORTUNITY) {
-      setOpen(true);
-      setSnackBarMessage("Saving changes...");
-    } else if ((!CREATE_OPPORTUNITY || !UPDATE_OPPORTUNITY) && !props.error) {
+    //success
+    else if ((!CREATE_OPPORTUNITY || !UPDATE_OPPORTUNITY) && !props.error) {
       setOpen(true);
 
       setSnackBarMessage("Opportunity saved!");
     }
   }, [props.error, props.loading]);
+
+  useEffect(() => {
+    console.log("default values");
+    setDefaultValues(props.opportunity);
+    setOpen(false);
+  }, [props.opportunity]);
 
   const [open, setOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
@@ -142,20 +145,7 @@ function ErForm(props) {
       }
     }
   };
-  const snackBar = (
-    <Fragment>
-      <Snackbar
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        message={props.message}
-      />
-    </Fragment>
-  );
+
   return (
     <div>
       <form className={fullWidth().root} noValidate autoComplete="off">
@@ -225,7 +215,7 @@ function ErForm(props) {
           horizontal: "center",
         }}
         open={open}
-        autoHideDuration={3000}
+        autoHideDuration={1000}
         message={snackBarMessage}
       />
     </div>

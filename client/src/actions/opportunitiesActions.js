@@ -10,10 +10,10 @@ import {
 import axios from "axios";
 
 //Retrieving Opportunities
-export const fetchOpportunities = () => async (dispatch) => {
+export const fetchOpportunities = (classification) => async (dispatch) => {
   dispatch(setOpportunitiesLoading(FETCH_OPPORTUNITY));
   try {
-    const res = await axios.get("/api/opportunities?c=INL");
+    const res = await axios.get(`/api/opportunities?c=${classification}`);
     const data = await res.data;
     dispatch({
       type: FETCH_OPPORTUNITY,

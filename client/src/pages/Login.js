@@ -44,12 +44,16 @@ function Login(props) {
       <form onSubmit={loginUser} className="login-container" action="">
         <h1>Welcome</h1>
         <TextField
+          error={props.error ? true : false}
+          helperText={props.error ? `Incorrect Email` : ""}
           onChange={updateEmail}
           className="input-text-field"
           id="standard-basic"
           label="EMAIL"
         />
         <TextField
+          error={props.error ? true : false}
+          helperText={props.error ? `Incorrect Password` : ""}
           onChange={updatePassword}
           className="input-text-field"
           id="standard-basic"
@@ -69,6 +73,7 @@ function Login(props) {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  error: state.auth.error,
 });
 
 // export default Login;

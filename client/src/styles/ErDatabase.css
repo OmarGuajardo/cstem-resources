@@ -10,13 +10,14 @@
 #hidden {
   display: none;
 }
+
 #fabDB {
   background-color: var(--accent-color);
   margin: 0px;
   top: auto;
-  right: 30px;
+  right: 2%;
 
-  bottom: 20px;
+  bottom: 2%;
   left: auto;
   position: fixed;
 }
