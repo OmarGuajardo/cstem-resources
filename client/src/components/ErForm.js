@@ -58,7 +58,27 @@ function ErForm(props) {
     setDefaultValues(props.opportunity);
   }, [props.opportunity]);
 
-  const [open, setOpen] = useState(true);
+  useEffect(() => {
+    const { CREATE_OPPORTUNITY, UPDATE_OPPORTUNITY } = props.loading;
+    //loading
+    //error
+    if (props.error) {
+      setOpen(true);
+      setSnackBarMessage(props.message);
+    }
+    //succes
+    else if (CREATE_OPPORTUNITY || UPDATE_OPPORTUNITY) {
+      setOpen(true);
+      setSnackBarMessage("Saving changes...");
+    } else if ((!CREATE_OPPORTUNITY || !UPDATE_OPPORTUNITY) && !props.error) {
+      setOpen(true);
+
+      setSnackBarMessage("Opportunity saved!");
+    }
+  }, [props.error, props.loading]);
+
+  const [open, setOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
   const handleClose = () => {
     setOpen(false);
   };
@@ -129,8 +149,8 @@ function ErForm(props) {
           vertical: "bottom",
           horizontal: "center",
         }}
-        open={props.error ? true : false}
-        // autoHideDuration={10000}
+        open={open}
+        autoHideDuration={3000}
         onClose={handleClose}
         message={props.message}
       />
@@ -199,17 +219,15 @@ function ErForm(props) {
       >
         <FaRegSave id="save-icon-fab" />
       </Fab>
-      {snackBar}
-      {/* <Snackbar
+      <Snackbar
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center",
         }}
-        open={props.error ? true : false}
-        // autoHideDuration={10000}
-        onClose={handleClose}
-        message={props.message}
-      /> */}
+        open={open}
+        autoHideDuration={3000}
+        message={snackBarMessage}
+      />
     </div>
   );
 }
