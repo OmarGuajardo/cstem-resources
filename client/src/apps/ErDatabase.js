@@ -124,7 +124,7 @@ function ErDatabase(props) {
           Delete
         </Button>
       </div>
-      {props.loading.FETCHING_OPPORTUNITY
+      {props.loading.FETCH_OPPORTUNITY
         ? loadingOpportunities
         : loadedOpportunities}
 
@@ -134,7 +134,7 @@ function ErDatabase(props) {
         show={modal}
       />
       <Fab
-        disabled={props.loading.FETCHING_OPPORTUNITY}
+        disabled={props.loading.FETCH_OPPORTUNITY}
         onClick={() => {
           openModal(CREATE_OPPORTUNITY);
         }}

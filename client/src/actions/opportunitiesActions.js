@@ -1,117 +1,121 @@
 import {
-  FETCH_OPPORTUNITIES,
+  FETCH_OPPORTUNITY,
   CREATE_OPPORTUNITY,
   DELETE_OPPORTUNITY,
   UPDATE_OPPORTUNITY,
   SET_LOADING,
-  FETCHING_OPPORTUNITY,
-  UPDATING_OPPORTUNITY,
-  DELETING_OPPORTUNITY,
-  CREATING_NEW_OPPORTUNITY,
+  SET_ERROR_STATUS,
+  CLEAR_ERRORS,
 } from "./types";
 import axios from "axios";
 
 //Retrieving Opportunities
-export const fetchOpportunities = () => (dispatch) => {
-  dispatch({
-    type: SET_LOADING,
-    payload: FETCHING_OPPORTUNITY,
-  });
-  fetch("/api/opportunities?c=INL")
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({
-        type: FETCH_OPPORTUNITIES,
-        payload: data,
-      });
-    })
-    .catch((err) => console.log("something went wrong fetching the data"));
+export const fetchOpportunities = () => async (dispatch) => {
+  dispatch(setOpportunitiesLoading(FETCH_OPPORTUNITY));
+  try {
+    const res = await axios.get("/api/opportunities?c=INL");
+    const data = await res.data;
+    dispatch({
+      type: FETCH_OPPORTUNITY,
+      payload: data,
+    });
+    clearErrors(dispatch);
+  } catch (err) {
+    dispatchError(dispatch, FETCH_OPPORTUNITY, err);
+    console.log("something went wrong fetching opps ", err);
+  }
 };
 
 //Creating Opportunities
-export const createOpportunity = (newOpportunity) => (dispatch) => {
-  dispatch({
-    type: SET_LOADING,
-    payload: CREATING_NEW_OPPORTUNITY,
-  });
-  const config = { headers: { "Content-Type": "application/json" } };
-  axios
-    .post("/api/opportunities", JSON.stringify(newOpportunity), config)
-    .then((res) => {
-      if (res.status === 200) {
-        console.log(res.data.body);
-        dispatch({
-          type: CREATE_OPPORTUNITY,
-          payload: res.data.body,
-        });
-      } else {
-        //TOOD: Do something if they gave us wrong info
-        console.log("Something went wrong when saving opp " + res);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log("There was an error making an Opportunity");
-      //TODO: Do something if we aren't able to save opportunity
-    });
-};
-//UPDATING Opportunity
-export const updateOpportunity = (updatedOpportunity, id) => (
+export const createOpportunity = (newOpportunity) => async (
   dispatch,
   getState
 ) => {
-  dispatch({
-    type: SET_LOADING,
-    payload: UPDATING_OPPORTUNITY,
-  });
-  axios
-    .put(`/api/opportunities/${id}`, updatedOpportunity)
-    .then((res) => {
-      if (res.status === 200) {
-        let updatedOpportunities = getState().opportunities.items.filter(
-          (op) => op._id !== id
-        );
-        updatedOpportunities = [...updatedOpportunities, res.data.body];
-        dispatch({
-          type: UPDATE_OPPORTUNITY,
-          payload: updatedOpportunities,
-        });
-      } else {
-        console.log("Something went wrong when saving opp " + res);
-      }
-    })
-    .catch((err) => {
-      console.log("There was an error updating an Opportunity", err);
+  dispatch(setOpportunitiesLoading(CREATE_OPPORTUNITY));
+  const config = { headers: { "Content-Type": "application/json" } };
+
+  try {
+    const res = await axios.post(
+      "/api/opportunities",
+      JSON.stringify(newOpportunity),
+      config
+    );
+
+    dispatch({
+      type: CREATE_OPPORTUNITY,
+      payload: [...getState.opportunities.items, res.data.body],
     });
+    clearErrors(dispatch);
+  } catch (err) {
+    dispatchError(dispatch, CREATE_OPPORTUNITY, err);
+  }
+};
+//UPDATING Opportunity
+export const updateOpportunity = (updatedOpportunity, id) => async (
+  dispatch,
+  getState
+) => {
+  dispatch(setOpportunitiesLoading(UPDATE_OPPORTUNITY));
+  try {
+    const res = await axios.put(`/api/opportunities/${id}`, updatedOpportunity);
+    let updatedOpportunities = getState().opportunities.items.filter(
+      (op) => op._id !== id
+    );
+    updatedOpportunities = [...updatedOpportunities, res.data.body];
+
+    dispatch({
+      type: UPDATE_OPPORTUNITY,
+      payload: updatedOpportunities,
+    });
+    clearErrors(dispatch);
+  } catch (err) {
+    dispatchError(dispatch, UPDATE_OPPORTUNITY, err);
+  }
 };
 
 //Deleting Opportunities
-export const deleteOpportunity = (opportunitiesToDelete) => (
+export const deleteOpportunity = (opportunitiesToDelete) => async (
   dispatch,
   getState
 ) => {
-  dispatch({
-    type: SET_LOADING,
-    payload: DELETING_OPPORTUNITY,
-  });
+  dispatch(setOpportunitiesLoading(DELETE_OPPORTUNITY));
   const body = { opportunitiesToDelete: [...opportunitiesToDelete] };
+  try {
+    const res = await axios.delete("/api/opportunities", { data: body });
+    if (res.status === 200) {
+      let updatedOpportunities = getState().opportunities.items.filter((op) => {
+        if (!opportunitiesToDelete.includes(op._id)) {
+          return op;
+        }
+      });
+      dispatch({
+        type: DELETE_OPPORTUNITY,
+        payload: updatedOpportunities,
+      });
+      clearErrors(dispatch);
+    }
+  } catch (err) {
+    dispatchError(dispatch, DELETE_OPPORTUNITY, err);
+  }
+};
 
-  axios
-    .delete("/api/opportunities", { data: body })
-    .then((res) => {
-      if (res.status == 200) {
-        let updatedOpportunities = getState().opportunities.items.filter(
-          (op) => {
-            if (!opportunitiesToDelete.includes(op._id)) {
-              return op;
-            }
-          }
-        );
-        dispatch({
-          type: DELETE_OPPORTUNITY,
-          payload: updatedOpportunities,
-        });
-      }
-    })
-    .catch((err) => console.log("Somethign went wrong deleting the opps", err));
+const setOpportunitiesLoading = (action) => {
+  return {
+    type: SET_LOADING,
+    payload: action,
+  };
+};
+const clearErrors = (dispatch) => {
+  dispatch({
+    type: CLEAR_ERRORS,
+  });
+};
+const dispatchError = (dispatch, type, msg) => {
+  dispatch({
+    type: SET_ERROR_STATUS,
+    payload: {
+      error: type,
+      message: msg.message,
+    },
+  });
 };

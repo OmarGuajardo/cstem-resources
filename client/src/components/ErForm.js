@@ -11,6 +11,7 @@ import {
   updateOpportunity,
 } from "../actions/opportunitiesActions";
 import Snackbar from "@material-ui/core/Snackbar";
+import { Fragment } from "react";
 
 const fullWidth = makeStyles((theme) => ({
   root: {
@@ -121,6 +122,20 @@ function ErForm(props) {
       }
     }
   };
+  const snackBar = (
+    <Fragment>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={props.error ? true : false}
+        // autoHideDuration={10000}
+        onClose={handleClose}
+        message={props.message}
+      />
+    </Fragment>
+  );
   return (
     <div>
       <form className={fullWidth().root} noValidate autoComplete="off">
@@ -177,29 +192,31 @@ function ErForm(props) {
       </form>
       <Fab
         disabled={
-          props.loading.UPDATING_OPPORTUNITY ||
-          props.loading.CREATING_NEW_OPPORTUNITY
+          props.loading.UPDATE_OPPORTUNITY || props.loading.CREATE_OPPORTUNITY
         }
         onClick={saveProgram}
         id="fabForm"
       >
         <FaRegSave id="save-icon-fab" />
       </Fab>
-      <Snackbar
+
+      {/* <Snackbar
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center",
         }}
-        open={open}
+        open={props.error ? true : false}
         // autoHideDuration={10000}
         onClose={handleClose}
-        message="Note archived"
-      />
+        message={props.message}
+      /> */}
     </div>
   );
 }
 const mapStateToProps = (state) => ({
   loading: state.opportunities.loading,
+  error: state.opportunities.error,
+  message: state.opportunities.message,
 });
 export default connect(mapStateToProps, {
   createOpportunity,
