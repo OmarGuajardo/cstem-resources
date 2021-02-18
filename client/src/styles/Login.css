@@ -1,0 +1,102 @@
+.background {
+  position: relative;
+  background-color: var(--secondary-color);
+  min-height: 100vh;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-position: center;
+
+  background-size: cover;
+}
+
+.background {
+  overflow: hidden;
+}
+.login-icon-background {
+  position: absolute;
+  font-size: 800px;
+  color: rgba(107, 143, 113, 0.33);
+}
+#top-right {
+  margin-top: -400px;
+  margin-right: -400px;
+  top: 0;
+  right: 0;
+  animation: rotate2 25s infinite;
+}
+#bottom-left {
+  bottom: 0;
+  left: 0;
+  margin-bottom: -400px;
+  margin-left: -400px;
+  animation: rotate 15s infinite;
+}
+
+/* The animation code */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate2 {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.background .login-icon {
+  font-size: 115px;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+}
+
+.login-container {
+  background-color: rgba(107, 143, 113, 0.33);
+  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+  height: 60%;
+  width: 26%;
+  justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-container h1 {
+  flex: 0.8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.input-text-field {
+  flex: 0.6;
+
+  width: 60%;
+  align-self: center;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+.button-container .login-btn {
+  border-radius: 100px;
+  border: 2px solid var(--primary-color);
+  width: 50%;
+  font-weight: 700;
+}

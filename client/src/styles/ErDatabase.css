@@ -1,0 +1,29 @@
+.app-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+#delete-btn-table {
+  margin-left: auto;
+}
+#hidden {
+  display: none;
+}
+
+#fabDB {
+  background-color: var(--accent-color);
+  margin: 0px;
+  top: auto;
+  right: 2%;
+
+  bottom: 2%;
+  left: auto;
+  position: fixed;
+}
+#add-icon-fab {
+  font-size: 140%;
+}
+#fabDB:hover {
+  background-color: #dd862e;
+}

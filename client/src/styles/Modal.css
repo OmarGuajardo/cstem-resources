@@ -1,0 +1,58 @@
+.background-blur {
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(10px);
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  transition: 0.3s ease;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.background-blur.hidden {
+  backdrop-filter: blur(0px);
+
+  display: none;
+  transition: 0.3s ease;
+}
+
+.modal-container {
+  position: relative;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.modal-heading {
+  display: flex;
+  align-items: center;
+}
+.modal-heading #exitForm {
+  cursor: pointer;
+  margin-left: auto;
+  font-size: 20px;
+  transition: 0.3s ease;
+}
+#exitForm:hover {
+  font-size: 25px;
+}
+.modal-content {
+  margin-top: 20px;
+}
+
+#fabForm {
+  border-radius: 10px;
+  background-color: transparent;
+  box-shadow: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  right: 20px;
+  bottom: 20px;
+}
+
+#save-icon-fab {
+  font-size: 35px;
+}
