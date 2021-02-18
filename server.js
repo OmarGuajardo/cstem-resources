@@ -12,15 +12,6 @@ global.appRoot = path.resolve(__dirname);
 //Importing DOTENV
 dotenv.config();
 
-//Production settings
-if (process.env.NODE_ENV === "production") {
-  //Server Static folder
-  app.use(express.static("client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
 //Connecting to Database
 mongoose
   .connect(process.env.MONGO_DB_URI, {
@@ -42,6 +33,16 @@ app.use(cookieParser());
 
 //Router Middleware
 app.use("/api", require("./routes/index"));
+
+//Production settings
+if (process.env.NODE_ENV === "production") {
+  //Server Static folder
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 app.listen(process.env.PORT || 5000, () =>
   console.log("Server is running on port 5000")
