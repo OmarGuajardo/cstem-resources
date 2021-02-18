@@ -12,6 +12,15 @@ global.appRoot = path.resolve(__dirname);
 //Importing DOTENV
 dotenv.config();
 
+//Production settings
+if (process.env.NODE_ENV === "production") {
+  //Server Static folder
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 //Connecting to Database
 mongoose
   .connect(process.env.MONGO_DB_URI, {
@@ -27,7 +36,6 @@ mongoose
   });
 
 //Middleware
-
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
