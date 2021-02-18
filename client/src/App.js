@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import store from "./store";
-import checkToken from "./components/checkToken";
 import { ThemeProvider } from "@material-ui/core/";
 import theme from "./styles/theme";
 

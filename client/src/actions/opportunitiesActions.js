@@ -82,11 +82,9 @@ export const deleteOpportunity = (opportunitiesToDelete) => async (
   try {
     const res = await axios.delete("/api/opportunities", { data: body });
     if (res.status === 200) {
-      let updatedOpportunities = getState().opportunities.items.filter((op) => {
-        if (!opportunitiesToDelete.includes(op._id)) {
-          return op;
-        }
-      });
+      let updatedOpportunities = getState().opportunities.items.filter(
+        (op) => !opportunitiesToDelete.includes(op._id)
+      );
       dispatch({
         type: DELETE_OPPORTUNITY,
         payload: updatedOpportunities,

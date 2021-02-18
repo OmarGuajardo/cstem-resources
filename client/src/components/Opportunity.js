@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../styles/Opportunity.css";
 import Checkbox from "@material-ui/core/Checkbox";
 import { UPDATE_OPPORTUNITY } from "../actions/types";
