@@ -21,10 +21,10 @@ const Opportunity = (props) => {
         <a href={props.opportunity.url}>{props.opportunity.name}</a>
       </div>
       <div onClick={handleClick} className="opportunity-info">
-        {props.opportunity.participants}
+        {props.opportunity.major}
       </div>
       <div onClick={handleClick} className="opportunity-info">
-        {props.opportunity.major}
+        {props.opportunity.participants}
       </div>
       <div onClick={handleClick} className="opportunity-info">
         {props.opportunity.deadline}
