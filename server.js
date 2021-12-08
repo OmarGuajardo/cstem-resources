@@ -11,7 +11,7 @@ global.appRoot = path.resolve(__dirname);
 
 //Importing DOTENV
 dotenv.config();
-
+console.log(process.env.MONGO_DB_URI)
 //Connecting to Database
 mongoose
   .connect(process.env.MONGO_DB_URI, {

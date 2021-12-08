@@ -21,6 +21,7 @@ workshopController.post('/', async (req, res) => {
         const workshop = new Workshop({
             name: req.body.name,
             video_url: req.body.video_url,
+            banner_url: req.body.banner_url,
             description: req.body.description,
             startDate: req.body.startDate,
             endDate: req.body.endDate

@@ -5,6 +5,7 @@ const workshopValidation = (data) => {
     const schema = Joi.object({
         name: Joi.string().required(),
         video_url: Joi.string().uri().required(),
+        banner_url: Joi.string().uri().required(),
         description: Joi.string(),
         startDate: Joi.date(),
         endDate: Joi.date()
