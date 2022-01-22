@@ -16,7 +16,7 @@
  - URL (String)
  - Participants (String)
  - Major (String)
- - Deadline (Date)
+ - Date (Date)
  - 
 ### Sub Routes
 -  POST `/login`
