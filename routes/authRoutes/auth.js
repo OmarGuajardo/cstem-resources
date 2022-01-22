@@ -1,12 +1,11 @@
 const router = require("express").Router();
-const {
-  userValidation,
-  loginValidation,
-} = require("../../functions/validation");
+const { userValidation, loginValidation, } = require("../../functions/validation");
 const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const verify = require("../../middleware/verfiyToken");
+
+
 router.post("/register", async (req, res) => {
   //Making sure request meets our template
   const { error } = await userValidation(req.body);
@@ -14,7 +13,7 @@ router.post("/register", async (req, res) => {
 
   const userExists = await User.findOne({ email: req.body.email });
   if (userExists) return res.status(400).send("Email already exists");
-
+  
   //Hashing passwords
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
