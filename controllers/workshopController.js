@@ -12,7 +12,7 @@ workshopController.post('/', async (req, res) => {
     const { error } = workshopValidation(req.body)
     if (error) return res.status(400).send(error)
 
-    //Making sure we don't have dupicates
+    //Making sure we don't have duplicates
     const urlExists = await Workshop.findOne({ video_url: req.body.video_url })
     if (urlExists) return res.status(400).send("Workshop already exists")
 
